@@ -47,7 +47,7 @@ Next, you will scaffold a new Ansible collection.
 +
 image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="border"]
 
-PLEASe TYPE THE FOLLOWING:
+**PLEASE TYPE THE FOLLOWING:**
 
 .   **Fill out the collection details** in the new tab that opens. Use the following information:
 * **Namespace:** `mynamespace`
