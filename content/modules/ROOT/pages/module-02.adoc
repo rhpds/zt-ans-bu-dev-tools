@@ -52,7 +52,7 @@ image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="bo
 * **Collection:** `mycollection`
 * **Init path:**
 +
-[source,sh,role=execute]
+[source,sh]
 ----
 /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
 ----
