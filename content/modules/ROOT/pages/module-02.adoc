@@ -4,6 +4,7 @@
 :toc-title: Table of Contents
 :nosectnums:
 :icons: font
+:experimental:
 
 _A guide to using the Ansible extension for Visual Studio Code to scaffold a new Ansible collection and playbook project._
 
@@ -12,8 +13,6 @@ _A guide to using the Ansible extension for Visual Studio Code to scaffold a new
 == Lab Briefing
 
 In this exercise, you will create an Ansible collection and a playbook using the Ansible extension's wizard in Visual Studio Code (VS Code).
-
-When the laboratory environment is ready, you will be able to click the green **Start** button in the bottom right corner.
 
 image::Jun-06-2025_at_21.02.34-image.png[VS Code editor inside the lab environment, opts="border"]
 
@@ -27,17 +26,15 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 
 === Task 1: Explore the Ansible Extension
 
-First, get started with the graphical interface for `ansible-creator`, which is a feature of the Ansible extension for VS Code.
+First, let's explore the Ansible extension for VS Code.
 
-.   **Locate and open the Ansible extension** by clicking the Ansible icon in the left sidebar of VS Code. You will see three sections: *Ansible Development Tools*, *Ansible Lightspeed*, and *Ansible Lightspeed Feedback*.
-+
-image::image.png[Ansible icon in the VS Code sidebar, opts="border"]
+.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload** button to update to the latest version.
+
+.   Now locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
 
 .   **Collapse the Lightspeed sections** to simplify the view, as you will be working with *Ansible Development Tools*.
 +
-image::Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
-
-=== NOTE: The developement tools might indicate they have been updated and you need to reload the VS Code extentions. This can be done by click on reload
+image::../assets/images/Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
 
 === Task 2: Create a Collection Project
 
@@ -49,21 +46,16 @@ image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="bo
 
 **PLEASE TYPE THE FOLLOWING:**
 
+
 .   **Fill out the collection details** in the new tab that opens. Use the following information:
 * **Namespace:** `mynamespace`
 * **Collection:** `mycollection`
-* **Init path:**
-+
-[source,sh]
-----
-/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
-----
-+
-* **Check** the box for `Install collection from source code (editable mode)`.
+* **Init path:** `/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection`
+* **Check** the box for `Install collection from source code (editable mode)`
 +
 image::image.png[Collection creation form, opts="border"]
-
-.   **Create the collection** by clicking the blue **Create** button. After a few moments, you should see the creation details appear in the *Logs* box.
+* **Create the collection** by clicking the blue **Create** button. 
+* After a few moments, you should see the creation details appear in the *Logs* box.
 
 === Task 3: Create a Playbook Project
 
