@@ -75,22 +75,22 @@ adt --version
 Notice the command is `adt` (Ansible Development Tools). In the next task, you will use `ade` (Ansible Development Environment). These are different tools.
 ====
 +
-The output should look similar to this (versions may differ):
+The output should look similar to this (**versions may differ**):
 +
 [source,text]
 ----
-(.venv) [rhel@ansible mycollection]$ adt --version
-ansible-builder              3.1.0
-ansible-core                 2.18.5
-ansible-creator              25.4.1
-ansible-dev-environment      25.4.0
-ansible-dev-tools            25.5.1
-ansible-lint                 25.4.0
-ansible-navigator            25.4.1
-ansible-sign                 0.1.1
-molecule                     25.4.0
-pytest-ansible               25.4.1
-tox-ansible                  25.4.0
+(.venv) [rhel@vscode mycollection]$ adt --version
+ansible-builder                          3.1.1
+ansible-core                             2.19.4
+ansible-creator                          25.11.0
+ansible-dev-environment                  25.11.0
+ansible-dev-tools                        25.11.0
+ansible-lint                             25.11.1
+ansible-navigator                        25.11.0
+ansible-sign                             0.1.3
+molecule                                 25.11.1
+pytest-ansible                           25.11.1
+tox-ansible                              25.11.1
 ----
 
 === Task 4: Manage Dependencies with `ade`
