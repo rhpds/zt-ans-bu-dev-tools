@@ -1,4 +1,4 @@
-= Lab Guide: Deploying the Execution Environment with ansible-builder
+= Lab Guide: Creating an Execution Environment with ansible-builder
 :doctype: book
 :experimental:
 :notoc:
