@@ -34,7 +34,7 @@ First, let's explore the Ansible extension for VS Code.
 
 .   **Collapse the Lightspeed sections** to simplify the view, as you will be working with *Ansible Development Tools*.
 +
-image::../assets/images/Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
+image::Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
 
 === Task 2: Create a Collection Project
 
