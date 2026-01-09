@@ -28,7 +28,7 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 
 First, let's explore the Ansible extension for VS Code.
 
-.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload Window** button to update to the latest version.
+.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload Window** button to update to the latest version if you didn't do it in the previous step.
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
@@ -52,9 +52,26 @@ image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="bo
 * **Init path:** `/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection`
 * **Check** the box for `Install collection from source code (editable mode)`
 +
-image::image.png[Collection creation form, opts="border"]
+image::vscode-devtools-collection-create.png[Collection creation form, opts="border"]
 * **Create the collection** by clicking the blue **Create** button. 
 * After a few moments, you should see the creation details appear in the *Logs* box.
++
+[source,text]
+----
+------- ansible-creator logs ---------
+    Note: collection project created at /home/rhel/myansibleproject/collections/
+          ansible_collections/mynamespace/mycollection
+
+
+------- ansible-dev-environment logs -------
+Note: Created virtual environment: /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/.venv
+Note: Installed collections include: ansible.utils and mynamespace.mycollection
+Note: All python requirements are installed.
+Note: All required system packages are installed.
+Note: A virtual environment was specified but has not been activated.
+Note: Please activate the virtual environment:
+source /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/.venv/bin/activate
+----
 
 === Task 3: Create a Playbook Project
 
@@ -69,7 +86,7 @@ image::May-12-2025_at_18.31.56-image.png[Creating a Playbook project, opts="bord
 * **Namespace:** `mynamespace`
 * **Collection:** `mysecondcollection`
 +
-image::vscode-devtools-collection-create.png[Creating a Playbook project, opts="border"]
+image::vscode-devtools-playbook-create.png[Creating a Playbook project, opts="border"]
 
 
 

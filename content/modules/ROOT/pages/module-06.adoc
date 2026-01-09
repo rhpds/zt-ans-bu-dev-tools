@@ -47,8 +47,8 @@ image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border
 NOTE: This will require to be logged in to the registry before building the image. For the lab this is not required.
 * **Additional collections:** `mynamespace.mycollection`
 * **Additional python packages:** `cowsay`
-* **Tag:** mycollection-ee
-+ Leave the other fields as they are. We will customize the execution environment file soon.
+* **Tag:** `mycollection-ee`
+* **Leave all the other fields as they are**
 * Click the blue **Build** button. You might need to scroll down to find it.
 +
 image::vscode-devtools-ee-create.png[Creating an EE project, opts="border"]
@@ -137,13 +137,13 @@ options:
 +
 Save the `execution-environment.yml` file.
 
-. *Make sure you are in the myansibleproject directory:*
+. *Make sure you are in `mycollection` directory:*
 +
 Ensure your VS Code terminal is operating in the directory containing your newly created execution-environment.yml
 +
 [source,bash]
 ----
-cd /home/rhel/myansibleproject
+cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
 ----
 
 . *Run the `ansible-galaxy` command in the VS Code Terminal:*
@@ -253,6 +253,22 @@ ansible.posix            2.1.0
 ansible.utils            6.0.0  
 mynamespace.mycollection 1.0.0  
 ----
+
+. *Run the mycowsay.yml playbook with your new EE:*
++
+Use `ansible-navigator` to run your `mycowsay.yml` playbook with your newly created custom execution environment:
++
+[source,bash]
+----
+ansible-navigator run mycowsay.yml --execution-environment-image mycollection-ee --pull-policy never
+----
+
+. *Congrats!*
++
+If everything worked correctly, you should have gotten the cow  saying "Hello, Ansible!"!
+
+
+== WIP WIP WIP
 
 . *Test the cowsay module documentation:*
 +
