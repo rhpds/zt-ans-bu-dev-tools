@@ -14,8 +14,6 @@ _A guide to testing your Ansible collection using Ansible Molecule and a pre-con
 
 In this challenge, you will explore and test the collection you created using **Ansible Molecule**.
 
-image::image.png[Ansible Molecule logo, opts="border"]
-
 Ansible Molecule is a tool designed to aid in developing and testing Ansible playbooks, collections, and roles. It provides support for testing Ansible content across multiple instances, operating systems, and providers.
 
 **Scenarios** are the starting point for Molecule's powerful functionality. Think of a scenario as a test suite for your Ansible content. You can have as many scenarios as you like, and Molecule will run them sequentially.

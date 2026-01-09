@@ -28,11 +28,13 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 
 First, let's explore the Ansible extension for VS Code.
 
-.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload** button to update to the latest version.
+.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload Window** button to update to the latest version.
++
+image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
-.   Now locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
+.   After the window reloads, locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
 
-.   **Collapse the Lightspeed sections** to simplify the view, as you will be working with *Ansible Development Tools*.
+.   **Collapse the Lightspeed sections** to simplify the view, as we won't be using Lightspeed features for this lab.
 +
 image::Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
 
@@ -43,9 +45,6 @@ Next, you will scaffold a new Ansible collection.
 .   **Open the Collection project creator** by clicking the **Collection project** link in the *Ansible Development Tools* section.
 +
 image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="border"]
-
-**PLEASE TYPE THE FOLLOWING:**
-
 
 .   **Fill out the collection details** in the new tab that opens. Use the following information:
 * **Namespace:** `mynamespace`
@@ -69,6 +68,10 @@ image::May-12-2025_at_18.31.56-image.png[Creating a Playbook project, opts="bord
 * **Destination directory:** `/home/rhel/myansibleproject`
 * **Namespace:** `mynamespace`
 * **Collection:** `mysecondcollection`
++
+image::vscode-devtools-collection-create.png[Creating a Playbook project, opts="border"]
+
+
 
 .   **Create the project** by clicking the **Create** button. After a couple of seconds, you should see a success message in the logs.
 +

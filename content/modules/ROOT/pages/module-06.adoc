@@ -10,57 +10,79 @@ _A guide to automating the creation and customization of containerized execution
 
 == Lab Briefing
 
-In previous challenges, you authored, tested, and validated your custom Ansible collection. This final deployment step requires packaging all content (collections, Python dependencies, and system requirements) into a repeatable, version-controlled Execution Environment (EE) container image using `ansible-builder`.
+In previous challenges, you authored, tested, and validated your custom Ansible collection. 
 
-This exercise focuses on using the Ansible Builder 3.x schema features to efficiently define and build a custom EE directly from the VS Code environment.
+This final deployment step requires packaging all content (collections, Python dependencies, and system requirements) into a repeatable, version-controlled Execution Environment (EE) container image using `ansible-builder`.
 
+This exercise focuses on using the Ansible VS Code extension and Ansible Builder 3 features to efficiently define and build a custom EE directly from the VS Code environment.
 
 
 == Enhanced Developer Experience
 
-`ansible-builder` is part of the comprehensive Ansible Development Tools (ADT) suite. The Ansible VS Code extension is actively providing an Enhanced VS Code integration that simplifies interaction with these tools. For EE creation specifically, the roadmap includes the upcoming EE Builder Web UI, which will provide a graphical interface within VS Code to easily build, test, and debug your EEs.
+`ansible-builder` is part of the comprehensive Ansible Development Tools (ADT) suite. 
+
+The Ansible VS Code extension is actively providing an Enhanced VS Code integration that simplifies interaction with these tools. 
+
+Although new features in the roadmap are coming to simplify the EE building experience, specially for operators and deploying in production, this exercise covers the development and testing.
 
 == Lab Guide: Hands-On Tasks
 
-We will define an Execution Environment configuration file, use `ansible-builder create` to inspect the generated `Containerfile`, and finally build the custom EE image using Podman (the default container runtime).
+We will define an Execution Environment configuration file by using the Ansible extension wizard in VS Code, then use  `ansible-galaxy` to package our collection, `ansible-builder create` to inspect the generated `Containerfile`, and finally `ansible-builder build` for building the custom EE image, and finish by testing it using Podman (the default container runtime).
 
 === Task 1: Define the Execution Environment Definition File
 
+
 The EE configuration is defined in `execution-environment.yml`. To access the features of modern Ansible tooling, we must explicitly declare `version: 3` in the definition file.
 
-. *Open the collection directory in VS Code:*
+. *Create the Execution environment project in VS Code:*
 +
-Ensure you are operating in the directory containing your collection, which should contain the root configuration files.
+Open the **Ansible extension** in the VS Code sidebar and click the **Execution environment project** option under the "INITIALIZE" menu.
 +
-[source,bash]
-----
-cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
-----
+image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border"]
 
-. *Create the `execution-environment.yml` file:*
+.   **Fill out the Execution environment project details**. Use the following information:
+* **Destination path:** `/home/rhel/myansibleproject`
+* **Base image:** Select the `registry.redhat.io` option from the dropdown to use the Red Hat supported image. 
 +
-In the root of your collection directory, create a new file named `execution-environment.yml`.
+NOTE: This will require to be logged in to the registry before building the image. For the lab this is not required.
+* **Additional collections:** `mynamespace.mycollection`
+* **Additional python packages:** `cowsay`
+* **Tag:** mycollection-ee
++ Leave the other fields as they are. We will customize the execution environment file soon.
+* Click the blue **Build** button. You might need to scroll down to find it.
++
+image::vscode-devtools-ee-create.png[Creating an EE project, opts="border"]
 
-. *Add the EE blueprint content:*
+
+. *Open the `execution-environment.yml` file:*
 +
-Copy and paste the following content into `execution-environment.yml`. This configuration defines the base image, includes the collection dependencies (which implicitly pull requirements from `requirements.txt` and `requirements.yml`), and explicitly adds the system dependency (`cowsay`) needed for your custom module.
+In the VS Code file explorer view, look for and open the newly created file named `execution-environment.yml`. It should be in the root of the `myansibleproject`. 
+
+. *Check the EE blueprint content:*
++
+This configuration defines the base image, includes the collection dependencies (as an alternative to pull requirements from `requirements.txt` and `requirements.yml`), and explicitly adds the system dependency (`cowsay`) needed for your custom module. The file should look like the one below:
 +
 [source,yaml]
 ----
+---
 version: 3
 images:
   base_image:
-    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
+    name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel8:latest
 dependencies:
-  galaxy: requirements.yml
-  python: requirements.txt
+  ansible_core:
+    package_pip: ansible-core
+  ansible_runner:
+    package_pip: ansible-runner
+  galaxy:
+    collections:
+      - name: mynamespace.mycollection
+  python:
+    - cowsay
 options:
-  # MANDATORY: Specifies the package manager path for downstream Red Hat images
+  tags:
+    - mycollection-ee
   package_manager_path: /usr/bin/microdnf
-additional_build_steps:
-  append_final:
-    # Ensure cowsay system package is present for our custom module
-    - RUN microdnf install cowsay -y
 ----
 +
 [IMPORTANT]
@@ -69,13 +91,82 @@ additional_build_steps:
 Because the base image (`ee-minimal-rhel8:latest`) is built on UBI-minimal, which uses `microdnf`, you must specify `package_manager_path: /usr/bin/microdnf` in the options section for the build to succeed.
 ====
 
+. *Let's customize the EE blueprint content:*
++
+We will be making two modifications to the created file, as we are building an EE to test our local developed collection, we need to specify to `ansible-builder` we will be working with a local tarball, as our collection is not yet available in Ansible Galaxy or AAP's Automation Hub.
++
+First we will add a section called `additional_build_files`, where we will input the source (`src`) file of the collection and the destination (`dest`) for the build context
++
+Second we will modify the `collection:` section to point to the tarball path, instead of just the collection name, and indicate this by using `type: file` so `ansible-galaxy` uses the local file and avoids we copied to the build context in the previous step.
++
+[source,yaml]
+----
+---
+version: 3
+images:
+  base_image:
+    name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel8:latest
+
+dependencies:
+  ansible_core:
+    package_pip: ansible-core
+  ansible_runner:
+    package_pip: ansible-runner
+  galaxy:
+    collections:
+      # 2. Tell Galaxy to look inside the local folder we created below
+      - name: collection_tarballs/mynamespace-mycollection-1.0.0.tar.gz
+        type: file
+  python:
+    - cowsay
+
+# 1. Copy the file into a dedicated folder named 'collection_tarballs'
+additional_build_files:
+  - src: mynamespace-mycollection-1.0.0.tar.gz
+    dest: collection_tarballs
+
+options:
+  tags:
+    - mycollection-ee
+  package_manager_path: /usr/bin/microdnf
+
+----
++
+
 . *Save the file:*
 +
 Save the `execution-environment.yml` file.
 
+. *Make sure you are in the myansibleproject directory:*
++
+Ensure your VS Code terminal is operating in the directory containing your newly created execution-environment.yml
++
+[source,bash]
+----
+cd /home/rhel/myansibleproject
+----
+
+. *Run the `ansible-galaxy` command in the VS Code Terminal:*
++
+Before we move on to build our Execution Environment, we need to package our collection and clean it of unneeded development files. We will be using `ansible-galaxy` for this. Run the following command in the active terminal to generate the collection tarball.
++
+[source,bash]
+----
+ansible-galaxy collection build --output-path /home/rhel/myansibleproject/
+----
+
 === Task 2: Review the Generated Containerfile (Dry Run)
 
 Before executing the full build, we can use the `ansible-builder create` command to generate the `Containerfile` and build context directory (`context/`). This is helpful for debugging the build steps without spending time on the full image assembly.
+
+. *Make sure you are in the myansibleproject directory:*
++
+Ensure your VS Code terminal is operating in the directory containing your newly created execution-environment.yml
++
+[source,bash]
+----
+cd /home/rhel/myansibleproject
+----
 
 . *Run the `ansible-builder create` command in the VS Code Terminal:*
 +
@@ -90,30 +181,49 @@ _Expected Output:_ This creates the `context/` directory containing the `Contain
 
 . *Inspect the generated Containerfile:*
 +
-In the VS Code file explorer, locate `context/Containerfile` and open it. Review the sequential stages (Base, Galaxy, Builder, Final) generated by `ansible-builder`, confirming your custom `microdnf install cowsay` instruction is correctly inserted in the final stage.
+In the VS Code file explorer, locate `context/Containerfile` and open it. Review the sequential stages (Base, Galaxy, Builder, Final) generated by `ansible-builder`.
+
+
+
+
 
 === Task 3: Build and Tag the Custom Execution Environment
 
-Now we will execute the full build process and assign a specific tag to the final image.
+Now we will execute the full build process and assign a specific tag to the final container image.
 
 . *Run the `ansible-builder build` command:*
 +
-Use the `-t` flag to tag your new EE image and the `-v 3` flag for detailed output.
+Use the `-t` flag to tag your new EE image and the `-vvv` flag for detailed output.
 +
 [source,bash]
 ----
-ansible-builder build -t mynamespace/mycollection-ee:latest -v 3
+ansible-builder build -t mynamespace/mycollection-ee:latest -vvv
 ----
 +
 [NOTE]
 .Verbosity Flag
 ====
-The `-v 3` flag specifies the verbosity level of the output and is not related to the `version: 3` schema defined in your YAML file. This command executes the container build across four internal stages: Base, Galaxy, Builder, and Final.
+The `-vvv` flag specifies the verbosity level of the output and is not related to the `version` schema defined in your YAML file. 
 ====
 
 . *Verify the image creation:*
 +
-After the build completes successfully, use your container runtime tool to verify the local image exists.
+The build command executes the container build across four internal stages: Base, Galaxy, Builder, and Final. After the build completes successfully, you should see a message similar to this one:
++
+[source,bash]
+----
+[4/4] STEP 22/22: CMD ["bash"]
+[4/4] COMMIT mynamespace/mycollection-ee:latest
+--> 6492fc97cd31
+Successfully tagged localhost/mynamespace/mycollection-ee:latest
+6492fc97cd316aba11934f050e9ff5b8edf52972c80934ca70e122f1965bf62c
+
+Complete! The build context can be found at: /home/rhel/myansibleproject/context
+----
+
+. *Verify the container image exists:*
++
+Use your podman container runtime tool to verify the local image exists.
 +
 [source,bash]
 ----
@@ -122,7 +232,29 @@ podman images | grep mynamespace
 +
 You should see `mynamespace/mycollection-ee` listed.
 
-. *Test the custom EE:*
+. *Test the custom Execution environment contains mycollection:*
++
+With podman we can run an ansible-galaxy command to list all  collections in the execution environment:
++
+[source,bash]
+----
+podman run mynamespace/mycollection-ee:latest ansible-galaxy collection list
+----
++
+This command should display `mycollection` and it's dependencies. 
++
+[source,bash]
+----
+# /usr/share/ansible/collections/ansible_collections
+Collection               Version
+------------------------ -------
+ansible.netcommon        8.2.0  
+ansible.posix            2.1.0  
+ansible.utils            6.0.0  
+mynamespace.mycollection 1.0.0  
+----
+
+. *Test the cowsay module documentation:*
 +
 Run a quick test inside the container to verify the custom collection and module dependency were successfully packaged.
 +
@@ -131,10 +263,20 @@ Run a quick test inside the container to verify the custom collection and module
 podman run mynamespace/mycollection-ee:latest ansible-doc -t module mynamespace.mycollection.cowsay
 ----
 +
-This command should display the documentation for your custom module, confirming the environment is correctly packaged.
+This command should display the documentation for your custom module, but we didn't add the corresponding metadata blocks! If you still have time and would like to give it a try, check the docunmentation here and try to expand your module with the required metadata:
++
+https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_modules_documenting.html#dev-testing-module-documentation
+
+
 
 == Next Steps
 
-You have successfully packaged your automation content into an Execution Environment using `ansible-builder` 3.x. This image is now ready for promotion to an Automation Hub or deployment via Automation Controller.
+You have successfully packaged your automation content into an Execution Environment using `ansible-builder` and VS Code. This image is now ready for promotion to an Automation Hub or deployment via Automation Controller.
 
 _Click the **Next Challenge** button below to continue the workshop._
+
+
+
+
+
+

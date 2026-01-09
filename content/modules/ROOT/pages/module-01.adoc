@@ -12,9 +12,7 @@ _A brief introduction to the workshop, including tips for the lab environment._
 
 Welcome to the Ansible development tools workshop!
 
-image::un-11-2025_at_17.03.29-image.png[Ansible Development Tools, opts="border"]
-
-In this lab, you will learn how to create, test, and deploy an Ansible collection using the Ansible development tools, including `ansible-creator`, `ansible-lint`, `ansible-navigator`, `molecule`, the Visual Studio Code (VS Code) editor, and the official Ansible extension for VS Code.
+In this lab, you will learn how to create, test, and deploy an Ansible collection using the Ansible development tools, including `ansible-creator`, `ansible-lint`, `ansible-navigator`, `molecule`, `ansible-builder`, the Visual Studio Code (VS Code) editor and the official Ansible extension.
 
 ---
 
@@ -25,11 +23,15 @@ Before we begin, here are some basic tips to improve your lab experience:
 
 .   The **instructions sidebar** (where you are reading this) can be resized by dragging its border. This is useful if you need extra space for the main panel.
 
-.   The lab consists of several **Chapters** (or sections). Each chapter contains one or more **Tasks**.
-
 .   If you receive any VS Code notification pop-ups, you can safely ignore and dismiss them by clicking `x`, `Dismiss`, or `Ignore`, unless otherwise noted.
 
-.   When you finish a Chapter, you must click the **Next** button at the bottom of the instructions sidebar to proceed. 
+.   Now let's reload the **VS Code extensions** view to make sure we have the latest versions running. Inside the VS Code view, on the left icon sidebar, click the **Extensions** then click the **Reload Window** button in the **Ansible extension**
++
+image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
+
+.   The lab consists of several **Chapters** (or sections). Each chapter contains one or more **Tasks**.
+
+.   When you finish a **Chapter**, you must click the **Next** button at the bottom of the instructions sidebar to proceed. 
 
 .   You can now click **Next** to continue!
 

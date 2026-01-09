@@ -64,8 +64,10 @@ Now, you will switch to your playbook project folder and create a new playbook t
 .   **Open the playbook project folder.** In the VS Code top menu, select **File** → **Open Folder...**.
 
 .   **Enter the correct path.** In the prompt, **enter** the path `/home/rhel/myansibleproject` and **click** the blue **OK** button.
++
+image::vscode-devtools-folder-myansibleproject.png[Open Ansible Playbook Project, opts="border"]
 
-.   **Create a new playbook file.** In the file explorer on the left, **right-click** in the empty space below `site.yml` and select **New File**. Name the file `mycowsay.yml`.
+.   After the window reloads, **create a new playbook file.** In the file explorer on the left, **right-click** in the empty space below `site.yml` and select **New File**. Name the file `mycowsay.yml`.
 
 .   **Add the playbook content.** **Copy** and **paste** the following content into the `mycowsay.yml` file:
 +
@@ -90,7 +92,7 @@ You will notice red curly lines under parts of your playbook. These are warnings
 
 image::May-06-2025_at_22.28.04-image.png[Ansible Lint warnings in VS Code, opts="border"]
 
-.   **Open the Ansible extension settings.** **Click** the **Extensions** icon in the left sidebar. Find the **Ansible** extension, **click** the gear icon (⚙️), and select **Extension Settings**.
+.   **Open the Ansible extension settings**. Click the **Ansible** icon in the left sidebar then the **Settings** option in the menu.
 +
 image::vscode-devtools-extension-settings.png[Ansible Extension Settings, opts="border"]
 
@@ -122,7 +124,7 @@ image::vscode-devtools-lint-fix.png[Ansible Lint settings, opts="border"]
 
 === Task 4: Run the Playbook
 
-Now that your playbook is lint-free, let's run it using both `ansible-playbook` and `ansible-navigator`.
+Now that your playbook is lint-free, let's run it using both `ansible-playbook` and `ansible-navigator`. Go back to the **VS Code file Explorer** view.
 
 .   **Run with `ansible-playbook`.** In the VS Code file explorer, **right-click** your `mycowsay.yml` playbook. From the context menu, select **Run Ansible Playbook**. The output in the terminal should display a friendly cow saying "Hello, Ansible!".
 +
@@ -137,7 +139,7 @@ image::vscode-devtools-cowsay-run2.png[Ansible Navigator TUI, opts="border"]
 * You can now see the three tasks from your playbook. **Press `2`** to see the output of the final "Display the result" task.
 * You may need to scroll down to find the cow message.
 +
-image::scode-devtools-cowsay-navigator.png[Viewing task output in Ansible Navigator, opts="border"]
+image::vscode-devtools-cowsay-navigator.png[Viewing task output in Ansible Navigator, opts="border"]
 
 .   **Exit Ansible Navigator.** **Press** the `ESC` key three times to exit the TUI and return to the normal terminal prompt.
 
