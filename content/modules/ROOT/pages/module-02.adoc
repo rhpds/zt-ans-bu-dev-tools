@@ -28,13 +28,15 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 
 First, let's explore the Ansible extension for VS Code.
 
-.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload** button to update to the latest version.
-
-.   Now locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
-
-.   **Collapse the Lightspeed sections** to simplify the view, as you will be working with *Ansible Development Tools*.
+.   **Check the installed extensions section in VS Code**, look for the Ansible extension and click the blue **Reload Window** button to update to the latest version if you didn't do it in the previous step.
 +
-image::../assets/images/Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
+image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
+
+.   After the window reloads, locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
+
+.   **Collapse the Lightspeed sections** to simplify the view, as we won't be using Lightspeed features for this lab.
++
+image::Apr-29-2025_at_13.49.45-image.png[Collapsing the Lightspeed sections, opts="border"]
 
 === Task 2: Create a Collection Project
 
@@ -44,18 +46,32 @@ Next, you will scaffold a new Ansible collection.
 +
 image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="border"]
 
-**PLEASE TYPE THE FOLLOWING:**
-
-
 .   **Fill out the collection details** in the new tab that opens. Use the following information:
 * **Namespace:** `mynamespace`
 * **Collection:** `mycollection`
 * **Init path:** `/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection`
 * **Check** the box for `Install collection from source code (editable mode)`
 +
-image::image.png[Collection creation form, opts="border"]
+image::vscode-devtools-collection-create.png[Collection creation form, opts="border"]
 * **Create the collection** by clicking the blue **Create** button. 
 * After a few moments, you should see the creation details appear in the *Logs* box.
++
+[source,text]
+----
+------- ansible-creator logs ---------
+    Note: collection project created at /home/rhel/myansibleproject/collections/
+          ansible_collections/mynamespace/mycollection
+
+
+------- ansible-dev-environment logs -------
+Note: Created virtual environment: /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/.venv
+Note: Installed collections include: ansible.utils and mynamespace.mycollection
+Note: All python requirements are installed.
+Note: All required system packages are installed.
+Note: A virtual environment was specified but has not been activated.
+Note: Please activate the virtual environment:
+source /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/.venv/bin/activate
+----
 
 === Task 3: Create a Playbook Project
 
@@ -69,6 +85,10 @@ image::May-12-2025_at_18.31.56-image.png[Creating a Playbook project, opts="bord
 * **Destination directory:** `/home/rhel/myansibleproject`
 * **Namespace:** `mynamespace`
 * **Collection:** `mysecondcollection`
++
+image::vscode-devtools-playbook-create.png[Creating a Playbook project, opts="border"]
+
+
 
 .   **Create the project** by clicking the **Create** button. After a couple of seconds, you should see a success message in the logs.
 +

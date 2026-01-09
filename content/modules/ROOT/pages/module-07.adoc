@@ -1,4 +1,4 @@
-= Lab Guide: Creating an Execution Environment with ansible-builder
+= Workshop Conclusion: What's Next?
 :doctype: book
 :experimental:
 :notoc:
@@ -6,135 +6,53 @@
 :nosectnums:
 :icons: font
 
-_A guide to automating the creation and customization of containerized execution environments using the `ansible-builder` utility and the integrated Visual Studio Code environment._
+_A summary of the Ansible development tools you've learned and resources for continuing your learning journey._
 
-== Lab Briefing
+---
 
-In previous challenges, you authored, tested, and validated your custom Ansible collection. This final deployment step requires packaging all content (collections, Python dependencies, and system requirements) into a repeatable, version-controlled Execution Environment (EE) container image using `ansible-builder`.
+== Congratulations! 🎉
 
-This exercise focuses on using the Ansible Builder 3.x schema features to efficiently define and build a custom EE directly from the VS Code environment.
+You have successfully completed the **"Writing automation with Ansible development tools in VS Code"** workshop!
 
+=== Claim Your Ansible Forum Badge
 
+**Scan** the QR code below to sign up, join the "Workshop Completed" group, and claim your Ansible Forum badge.
 
-== Enhanced Developer Experience
+image:Jun-06-2025_at_21.22.04-image.png[QR code for Ansible Forum badge, opts="border"]
 
-`ansible-builder` is part of the comprehensive Ansible Development Tools (ADT) suite. The Ansible VS Code extension is actively providing an Enhanced VS Code integration that simplifies interaction with these tools. For EE creation specifically, the roadmap includes the upcoming EE Builder Web UI, which will provide a graphical interface within VS Code to easily build, test, and debug your EEs.
+After logging in to the Ansible Forum, link:https://forum.ansible.com/t/introduce-yourself-2025-edition/39892[introduce yourself in this topic] and feel free to mention that you just completed the Ansible Developer Tools lab!
 
-== Lab Guide: Hands-On Tasks
-
-We will define an Execution Environment configuration file, use `ansible-builder create` to inspect the generated `Containerfile`, and finally build the custom EE image using Podman (the default container runtime).
-
-=== Task 1: Define the Execution Environment Definition File
-
-The EE configuration is defined in `execution-environment.yml`. To access the features of modern Ansible tooling, we must explicitly declare `version: 3` in the definition file.
-
-. *Open the collection directory in VS Code:*
-+
-Ensure you are operating in the directory containing your collection, which should contain the root configuration files.
-+
-[source,bash]
-----
-cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
-----
-
-. *Create the `execution-environment.yml` file:*
-+
-In the root of your collection directory, create a new file named `execution-environment.yml`.
-
-. *Add the EE blueprint content:*
-+
-Copy and paste the following content into `execution-environment.yml`. This configuration defines the base image, includes the collection dependencies (which implicitly pull requirements from `requirements.txt` and `requirements.yml`), and explicitly adds the system dependency (`cowsay`) needed for your custom module.
-+
-[source,yaml]
-----
-version: 3
-images:
-  base_image:
-    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel8:latest
-dependencies:
-  galaxy: requirements.yml
-  python: requirements.txt
-options:
-  # MANDATORY: Specifies the package manager path for downstream Red Hat images
-  package_manager_path: /usr/bin/microdnf
-additional_build_steps:
-  append_final:
-    # Ensure cowsay system package is present for our custom module
-    - RUN microdnf install cowsay -y
-----
-+
 [IMPORTANT]
-.Microdnf Requirement
 ====
-Because the base image (`ee-minimal-rhel8:latest`) is built on UBI-minimal, which uses `microdnf`, you must specify `package_manager_path: /usr/bin/microdnf` in the options section for the build to succeed.
-====
-
-. *Save the file:*
-+
-Save the `execution-environment.yml` file.
-
-=== Task 2: Review the Generated Containerfile (Dry Run)
-
-Before executing the full build, we can use the `ansible-builder create` command to generate the `Containerfile` and build context directory (`context/`). This is helpful for debugging the build steps without spending time on the full image assembly.
-
-. *Run the `ansible-builder create` command in the VS Code Terminal:*
-+
-Execute the following command in the active terminal to generate the build context.
-+
-[source,bash]
-----
-ansible-builder create
-----
-+
-_Expected Output:_ This creates the `context/` directory containing the `Containerfile` and all necessary build artifacts.
-
-. *Inspect the generated Containerfile:*
-+
-In the VS Code file explorer, locate `context/Containerfile` and open it. Review the sequential stages (Base, Galaxy, Builder, Final) generated by `ansible-builder`, confirming your custom `microdnf install cowsay` instruction is correctly inserted in the final stage.
-
-=== Task 3: Build and Tag the Custom Execution Environment
-
-Now we will execute the full build process and assign a specific tag to the final image.
-
-. *Run the `ansible-builder build` command:*
-+
-Use the `-t` flag to tag your new EE image and the `-v 3` flag for detailed output.
-+
-[source,bash]
-----
-ansible-builder build -t mynamespace/mycollection-ee:latest -v 3
-----
-+
-[NOTE]
-.Verbosity Flag
-====
-The `-v 3` flag specifies the verbosity level of the output and is not related to the `version: 3` schema defined in your YAML file. This command executes the container build across four internal stages: Base, Galaxy, Builder, and Final.
+Check the "Next Steps" section below to learn how to get the Ansible development tools installed on your own workstation or laptop!
 ====
 
-. *Verify the image creation:*
-+
-After the build completes successfully, use your container runtime tool to verify the local image exists.
-+
-[source,bash]
-----
-podman images | grep mynamespace
-----
-+
-You should see `mynamespace/mycollection-ee` listed.
+---
 
-. *Test the custom EE:*
-+
-Run a quick test inside the container to verify the custom collection and module dependency were successfully packaged.
-+
-[source,bash]
-----
-podman run mynamespace/mycollection-ee:latest ansible-doc -t module mynamespace.mycollection.cowsay
-----
-+
-This command should display the documentation for your custom module, confirming the environment is correctly packaged.
+== Review of Concepts
 
-== Next Steps
+You have reached the end of the *Introduction to Ansible development tools* workshop. In this lab, you learned about and used some of the most important tools available to Ansible developers:
 
-You have successfully packaged your automation content into an Execution Environment using `ansible-builder` 3.x. This image is now ready for promotion to an Automation Hub or deployment via Automation Controller.
+* The **Ansible extension for VS Code** for a rich editing experience.
+* **`ansible-creator`** to scaffold new collections and content.
+* **`adt`** (Ansible development tools) for a unified command-line experience.
+* **`ade`** (Ansible development environment) for managing dependencies.
+* **`ansible-lint`** for checking playbooks against best practices.
+* **`ansible-navigator`** for a powerful terminal-based user interface.
+* **Ansible Molecule** for robustly testing your collections.
 
-_Click the **Next Challenge** button below to continue the workshop._
+---
+
+== Next Steps: Run `ansible-dev-tools` on Your Own Machine
+
+If you would like to get all of these tools running on your own Windows, macOS, or Linux machine, check out the following interactive guide. It will walk you through setting up a VS Code Dev Container, which is a great way to get a consistent and isolated development environment.
+
+.Interactive Guide
+****
+link:https://interact.redhat.com/share/iKoPpilaNueRFTUzWnqL[Installing Ansible developer tools in VS Code in Windows, macOS or Linux using the Dev Container]
+****
+
+[IMPORTANT]
+====
+Don't forget to share your feedback on this lab! Press the **Next** button at the bottom of the lab interface to leave a review once you've claimed your badge.
+====

@@ -14,8 +14,6 @@ _A guide to testing your Ansible collection using Ansible Molecule and a pre-con
 
 In this challenge, you will explore and test the collection you created using **Ansible Molecule**.
 
-image::image.png[Ansible Molecule logo, opts="border"]
-
 Ansible Molecule is a tool designed to aid in developing and testing Ansible playbooks, collections, and roles. It provides support for testing Ansible content across multiple instances, operating systems, and providers.
 
 **Scenarios** are the starting point for Molecule's powerful functionality. Think of a scenario as a test suite for your Ansible content. You can have as many scenarios as you like, and Molecule will run them sequentially.
@@ -30,15 +28,18 @@ Now, let's explore the test scenario that was automatically added to your collec
 
 When you created the collection in the previous challenge, `ansible-creator` also generated a Molecule test scenario named `integration_hello_test`.
 
-.   **Locate the Molecule scenario.** In the VS Code file explorer, **expand** the following directory path: `collections/ansible_collections/mynamespace/mycollection/extensions/molecule/integration_hello_world`.
+.   **Locate the Molecule scenario.** In the VS Code file explorer, **expand** the following directory path: collections > ansible_collections > mynamespace > mycollection > extensions > molecule
+ > integration_hello_world
+
+NOTE: You can also copy and paste the path: `collections/ansible_collections/mynamespace/mycollection/extensions/molecule/integration_hello_world`.
 
 .   **Examine the Molecule configuration.** Within the `integration_hello_world` directory, **open** the `molecule.yml` file. Molecule uses this file to define the settings and scenarios for testing the Ansible collection.
 +
-image::image.png[Molecule configuration file in VS Code, opts="border"]
+image::vscode-devtools-molecule-yml.png[Molecule configuration file in VS Code, opts="border"]
 
 .   **Examine the test playbook.** Under the `extensions` directory, **expand** the `utils/playbooks` directory. **Open** the `converge.yml` playbook and observe how it is structured to call integration tests from the `tests/` directory.
 +
-image::image.png[Converge playbook for the Molecule test, opts="border"]
+image::vscode-devtools-molecule-converge.png[Converge playbook for the Molecule test, opts="border"]
 
 === Task 2: Create a Filter Plugin
 
@@ -71,12 +72,14 @@ Finally, you will use the command line to run the Molecule test scenario.
 cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/extensions/
 ----
 
-.   **Run a bare Molecule test.** First, run `molecule test` without specifying a scenario. You will see error messages, which is expected because you must provide a scenario name.
+.   **Run a bare Molecule test.** First, run `molecule test` without specifying a scenario. 
 +
 [source,bash]
 ----
 molecule test
 ----
+
+WARNING: You will see error messages, which is expected because you must provide a scenario name.
 
 .   **Run the test with the correct scenario.** Now, **run** the command again, this time specifying the scenario with the `-s` flag:
 +
@@ -87,7 +90,7 @@ molecule test -s integration_hello_world
 
 .   **Observe the successful test run.** Success! You can see Molecule running the included tests and confirming that all assertions passed.
 +
-image::image.png[Successful Molecule test output in the terminal, opts="border"]
+image::vscode-devtools-molecule-passed.png[Successful Molecule test output in the terminal, opts="border"]
 
 ---
 
