@@ -12,7 +12,7 @@ _A guide to adding a custom module to your Ansible collection and using it in a 
 
 == Lab Briefing
 
-In this challenge, you will be adding content to the collection you created and then testing it with a new playbook.
+In this challenge, you will be adding content in the form of a Ansible **module plugin** to the collection you created, and then using the module for a new playbook, which you will fix with `ansible-lint` before running it with `ansible-navigator`.
 
 
 ---
@@ -29,7 +29,7 @@ First, you will create a new Python file and add the code for a simple `cowsay` 
 
 .   **Add the Python code.** **Copy** the following Python code and **paste** it into the `cowsay.py` file you just created.
 +
-[source,python]
+[source,python,role=execute]
 ----
 from ansible.module_utils.basic import AnsibleModule
 import subprocess
@@ -71,7 +71,7 @@ image::vscode-devtools-folder-myansibleproject.png[Open Ansible Playbook Project
 
 .   **Add the playbook content.** **Copy** and **paste** the following content into the `mycowsay.yml` file:
 +
-[source,yaml]
+[source,yaml,role=execute]
 ----
 ---
 - hosts: localhost
@@ -106,7 +106,7 @@ image::vscode-devtools-lint-fix.png[Ansible Lint settings, opts="border"]
 
 .   **Apply the final manual fix.** One warning will remain. **Hover** your mouse over it to see the reason: "All plays should be named." The linter cannot fix this for you. To fix it, **add** a `- name:` line to the play. The final, correct playbook should look like this:
 +
-[source,yaml]
+[source,yaml,role=execute]
 ----
 ---
 - name: Using our cowsay module
@@ -146,4 +146,4 @@ image::vscode-devtools-cowsay-navigator.png[Viewing task output in Ansible Navig
 ---
 == Next Steps
 
-You have successfully added and tested a custom module. Please click the **Next** button below to proceed to the next challenge.
+You have successfully added and tested a custom module in your collection. Please click the **Next** button below to proceed to the next module.

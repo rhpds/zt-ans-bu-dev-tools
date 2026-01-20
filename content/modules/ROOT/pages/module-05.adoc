@@ -28,9 +28,9 @@ Now, let's explore the test scenario that was automatically added to your collec
 
 When you created the collection in the previous challenge, `ansible-creator` also generated a Molecule test scenario named `integration_hello_test`.
 
-.   **Locate the Molecule scenario.** In the VS Code file explorer, **expand** the following directory path: collections > ansible_collections > mynamespace > mycollection > extensions > molecule
- > integration_hello_world
-
+.   **Locate the Molecule scenario.** In the VS Code file explorer, **expand** the following directory path: __collections > ansible_collections > mynamespace > mycollection > extensions > molecule
+ > integration_hello_world__. 
+ 
 NOTE: You can also copy and paste the path: `collections/ansible_collections/mynamespace/mycollection/extensions/molecule/integration_hello_world`.
 
 .   **Examine the Molecule configuration.** Within the `integration_hello_world` directory, **open** the `molecule.yml` file. Molecule uses this file to define the settings and scenarios for testing the Ansible collection.
@@ -52,7 +52,7 @@ image::May-12-2025_at_21.51.02-image.png[Creating a Collection plugin, opts="bor
 .   **Fill out the plugin details.** **Fill** out the form with the following information:
 * **Collection root directory:**
 +
-[source,text]
+[source,text,role=execute]
 ----
 /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
 ----
@@ -67,14 +67,14 @@ Finally, you will use the command line to run the Molecule test scenario.
 
 .   **Navigate to the correct directory.** In the VS Code Terminal, **change** to the `extensions/` sub-directory of your collection:
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/extensions/
 ----
 
 .   **Run a bare Molecule test.** First, run `molecule test` without specifying a scenario. 
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 molecule test
 ----
@@ -83,7 +83,7 @@ WARNING: You will see error messages, which is expected because you must provide
 
 .   **Run the test with the correct scenario.** Now, **run** the command again, this time specifying the scenario with the `-s` flag:
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 molecule test -s integration_hello_world
 ----
@@ -96,4 +96,4 @@ image::vscode-devtools-molecule-passed.png[Successful Molecule test output in th
 
 == Next Steps
 
-NOTE: You have completed the final task. Press the green **Next** button below to finish the lab.
+You have successfully used Molecule to test your collection. Please click the **Next** button below to proceed to the next module.

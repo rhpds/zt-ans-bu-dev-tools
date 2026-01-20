@@ -12,7 +12,11 @@ _A guide to using the Ansible extension for Visual Studio Code to scaffold a new
 
 == Lab Briefing
 
-In this exercise, you will create an Ansible collection and a playbook using the Ansible extension's wizard in Visual Studio Code (VS Code).
+`ansible-creator` is a Command-Line Interface (CLI) tool designed for effortlessly scaffolding all your Ansible content. Whether you are initializing an Ansible collection or creating the framework for specific plugins, this tool streamlines the process with efficiency and precision based on your requirements.
+
+`ansible-creator` is also integrated into the VS Code user interface through the Ansible extension for VS Code for even a smoother experience when developing content.
+
+In this exercise, you will create an Ansible collection and a playbook using the Ansible extension's wizard in VS Code.
 
 image::Jun-06-2025_at_21.02.34-image.png[VS Code editor inside the lab environment, opts="border"]
 
@@ -20,9 +24,31 @@ image::Jun-06-2025_at_21.02.34-image.png[VS Code editor inside the lab environme
 
 == Lab Guide: Hands-On Tasks
 
-Welcome to this hands-on introduction to Ansible Development Tools (ADT). You will learn how to create, test, and deploy an Ansible collection using the `ansible-creator` tool through the Ansible extension for VS Code.
+In this exercise you will learn how to create, test, and deploy an Ansible collection using the `ansible-creator` tool through the Ansible extension for VS Code.
 
 For this lab, all necessary tools and dependencies are pre-installed and configured for you.
+
+
+=== Task 0: Create a Collection Using the ansible-creator CLI
+
+.   **Open the VS Code Terminal** by clicking the **Terminal** on the top VS Code menu, then **New Terminal** option. If you already have a Terminal open in VS Code you can reuse that one.
+
+
+. **Scaffold a CLI collection with ansible-creator:** Using `ansible-creator` initialize a collection called `mynamespace.my_cli_collection` in the `/home/rhel/myansibleproject/collections/ansible_collections` directory:
++
+[source,sh,role=execute]
+----
+ansible-creator init collection mynamespace.my_cli_collection /home/rhel/myansibleproject/collections/ansible_collections
+----
+
+. **Inspect the generated structure and files:**
++
+[source,sh,role=execute]
+----
+ls -lha /home/rhel/myansibleproject/collections/ansible_collections/mynamespace.my_cli_collection
+----
+
+. **Congrats:** You created a default collection. Move to the next tasks to see how to do this in VS Code and how to customize it.
 
 === Task 1: Explore the Ansible Extension
 
@@ -33,6 +59,8 @@ First, let's explore the Ansible extension for VS Code.
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
 .   After the window reloads, locate and open the **Ansible extension icon on the sidebar of VS Code** and click on it. You will see the Ansible sidebar with three sections: (1) *Ansible Development Tools*, (2) *Ansible Lightspeed*, and (3) *Ansible Lightspeed Feedback*.
++
+image::vscode-devtools-ansible-icon.png[Ansible icon in VS Code sidebar, opts="border"]
 
 .   **Collapse the Lightspeed sections** to simplify the view, as we won't be using Lightspeed features for this lab.
 +
@@ -47,9 +75,25 @@ Next, you will scaffold a new Ansible collection.
 image::Apr-29-2025_at_13.51.07-image.png[Creating a Collection project, opts="border"]
 
 .   **Fill out the collection details** in the new tab that opens. Use the following information:
-* **Namespace:** `mynamespace`
-* **Collection:** `mycollection`
-* **Init path:** `/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection`
+* **Namespace:** 
++
+[source,sh,role=execute]
+----
+mynamespace
+----
+* **Collection:**
++
+[source,sh,role=execute]
+----
+mycollection
+----
+* **Init path:**
++
+[source,sh,role=execute]
+----
+/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
+----
++
 * **Check** the box for `Install collection from source code (editable mode)`
 +
 image::vscode-devtools-collection-create.png[Collection creation form, opts="border"]
@@ -82,9 +126,24 @@ Now, you will create a separate playbook project.
 image::May-12-2025_at_18.31.56-image.png[Creating a Playbook project, opts="border"]
 
 .   **Fill out the playbook project details** in the new tab. Use the following information:
-* **Destination directory:** `/home/rhel/myansibleproject`
-* **Namespace:** `mynamespace`
-* **Collection:** `mysecondcollection`
+* **Destination directory:**
++
+[source,sh,role=execute]
+----
+/home/rhel/myansibleproject
+----
+* **Namespace:** 
++
+[source,sh,role=execute]
+----
+mynamespace
+----
+* **Collection:** 
++
+[source,sh,role=execute]
+----
+mysecondcollection
+----
 +
 image::vscode-devtools-playbook-create.png[Creating a Playbook project, opts="border"]
 
@@ -118,3 +177,16 @@ image::May-12-2025_at_18.45.02-image.png[Opening a folder in VS Code, opts="bord
 .   **View the scaffolded files** once the VS Code screen reloads. You will see the complete directory structure and all the files created by the Ansible extension for your new collection in the left sidebar.
 +
 image::May-06-2025_at_21.58.21-image.png[Scaffolded collection files in the Explorer view, opts="border"]
+
+
+=== Task 5: Compare the CLI-generated with the VS Code–generated collections
+
+. **Same layout**
+. **Same defaults**
+. **Same metadata files**
+
+---
+
+== Next Steps
+
+You have successfully explored how ansible-creator and VS Code work together to scaffold a collection. Please click the **Next** button below to proceed to the next module.

@@ -99,7 +99,7 @@ First we will add a section called `additional_build_files`, where we will input
 +
 Second we will modify the `collection:` section to point to the tarball path, instead of just the collection name, and indicate this by using `type: file` so `ansible-galaxy` uses the local file and avoids we copied to the build context in the previous step.
 +
-[source,yaml]
+[source,yaml,role=execute]
 ----
 ---
 version: 3
@@ -141,7 +141,7 @@ Save the `execution-environment.yml` file.
 +
 Ensure your VS Code terminal is operating in the directory containing your newly created execution-environment.yml
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
 ----
@@ -150,7 +150,7 @@ cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycol
 +
 Before we move on to build our Execution Environment, we need to package our collection and clean it of unneeded development files. We will be using `ansible-galaxy` for this. Run the following command in the active terminal to generate the collection tarball.
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 ansible-galaxy collection build --output-path /home/rhel/myansibleproject/
 ----
@@ -163,7 +163,7 @@ Before executing the full build, we can use the `ansible-builder create` command
 +
 Ensure your VS Code terminal is operating in the directory containing your newly created execution-environment.yml
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 cd /home/rhel/myansibleproject
 ----
@@ -172,7 +172,7 @@ cd /home/rhel/myansibleproject
 +
 Execute the following command in the active terminal to generate the build context.
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 ansible-builder create
 ----
@@ -195,7 +195,7 @@ Now we will execute the full build process and assign a specific tag to the fina
 +
 Use the `-t` flag to tag your new EE image and the `-vvv` flag for detailed output.
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 ansible-builder build -t mynamespace/mycollection-ee:latest -vvv
 ----
@@ -225,7 +225,7 @@ Complete! The build context can be found at: /home/rhel/myansibleproject/context
 +
 Use your podman container runtime tool to verify the local image exists.
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 podman images | grep mynamespace
 ----
@@ -236,7 +236,7 @@ You should see `mynamespace/mycollection-ee` listed.
 +
 With podman we can run an ansible-galaxy command to list all  collections in the execution environment:
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 podman run mynamespace/mycollection-ee:latest ansible-galaxy collection list
 ----
@@ -258,7 +258,7 @@ mynamespace.mycollection 1.0.0
 +
 Use `ansible-navigator` to run your `mycowsay.yml` playbook with your newly created custom execution environment:
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 ansible-navigator run mycowsay.yml --execution-environment-image mycollection-ee --pull-policy never
 ----
@@ -274,7 +274,7 @@ If everything worked correctly, you should have gotten the cow  saying "Hello, A
 +
 Run a quick test inside the container to verify the custom collection and module dependency were successfully packaged.
 +
-[source,bash]
+[source,bash,role=execute]
 ----
 podman run mynamespace/mycollection-ee:latest ansible-doc -t module mynamespace.mycollection.cowsay
 ----
@@ -284,14 +284,10 @@ This command should display the documentation for your custom module, but we did
 https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_modules_documenting.html#dev-testing-module-documentation
 
 
-
+---
 == Next Steps
 
-You have successfully packaged your automation content into an Execution Environment using `ansible-builder` and VS Code. This image is now ready for promotion to an Automation Hub or deployment via Automation Controller.
-
-_Click the **Next Challenge** button below to continue the workshop._
-
-
+You have successfully packaged your automation content into an Execution Environment using `ansible-builder` and VS Code. This image is now ready for upload to an Automation Hub or deployment via Automation Controller. Please click the **Next** button below to proceed to the next module.
 
 
 

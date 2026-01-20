@@ -1,0 +1,26 @@
+= Workshop Conclusion: What's Next?
+:doctype: book
+:experimental:
+:notoc:
+:toc-title: Table of Contents
+:nosectnums:
+:icons: font
+
+_Learn how to do unit testing for your content by using pytest-ansible._
+
+---
+
+== Lab Briefing
+
+pytest-ansible: A pytest plugin that enables the use of ansible in tests, enables the use of pytest as a collection unit test runner, and exposes molecule scenarios using a pytest fixture.
+
+== Enhanced Developer Experience
+
+The pytest-ansible plugin is designed to provide seamless integration between pytest and Ansible, allowing you to efficiently run and test Ansible-related tasks and scenarios within your pytest test suite. This plugin enhances the testing workflow by offering three distinct pieces of functionality
+
+== Lab Guide: Hands-On Tasks
+
+Unit Testing for Ansible Collections: This feature aids in running unit tests for Ansible collections using pytest. It allows you to validate the behavior of your Ansible modules and roles in isolation, ensuring that each component functions as expected.
+
+
+=== Task 1: 
