@@ -1,6 +1,6 @@
 * xref:module-01.adoc[Workshop tips]
 * xref:module-02.adoc[Creating a collection with the Ansible extension for VS Code]
-* xref:module-03.adoc[Using Ansible development environment]
+* xref:module-03.adoc[Using Ansible dev environment]
 * xref:module-04.adoc[Adding a module to our collection]
 * xref:module-05.adoc[Testing our collection with Molecule]
 * xref:module-06.adoc[Creating an Execution Environment with ansible-builder]
