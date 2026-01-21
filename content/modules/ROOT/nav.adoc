@@ -4,6 +4,7 @@
 * xref:module-04.adoc[Adding a module to our collection]
 * xref:module-05.adoc[Testing our collection with Molecule]
 * xref:module-06.adoc[Creating an Execution Environment with ansible-builder]
-* xref:module-07.adoc[What's next]
+* xref:module-07.adoc[Introducing supply chain security with ansible-sign]
+* xref:module-10.adoc[What's next]
 
 

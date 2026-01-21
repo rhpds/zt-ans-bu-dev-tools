@@ -32,7 +32,8 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 === Task 0: Create a Collection Using the ansible-creator CLI
 
 .   **Open the VS Code Terminal** by clicking the **Terminal** on the top VS Code menu, then **New Terminal** option. If you already have a Terminal open in VS Code you can reuse that one.
-
++
+image::vscode-devtools-terminal.png[VS Code terminal, opts="border"]
 
 . **Scaffold a CLI collection with ansible-creator:** Using `ansible-creator` initialize a collection called `mynamespace.my_cli_collection` in the `/home/rhel/myansibleproject/collections/ansible_collections` directory:
 +

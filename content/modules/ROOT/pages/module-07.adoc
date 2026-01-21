@@ -1,4 +1,4 @@
-= Workshop Conclusion: What's Next?
+= Lab Guide: Introducing supply chain security with ansible-sign
 :doctype: book
 :experimental:
 :notoc:
@@ -6,53 +6,146 @@
 :nosectnums:
 :icons: font
 
-_A summary of the Ansible development tools you've learned and resources for continuing your learning journey._
+_Learn how to sign content by using ansible-sign and apply supply-chain security measures, a major Dev Tools capability._
 
 ---
 
-== Congratulations! 🎉
+== Lab Briefing
 
-You have successfully completed the **"Intro to creating automation with the new Ansible Development Tools"** workshop!
+ `ansible-sign`: Utility for signing and verifying Ansible project directory contents.Project signing and verification lets you sign files in your project directory, then verify whether or not that content has changed in any way, or files have been added or removed from the project unexpectedly. To do this, you require a private key for signing and a matching public key for verifying. 
 
-=== Join the Ansible Forum
 
-**Scan** the QR code below to sign up to the Ansible Forum if you haven't yet, if you already have scan anyway and you might get a Badge for completing the workshop if you approach your instructor with your username!
+== Enhanced Developer Experience
 
-image:qr-ansible-forum-workshop-completed.png[QR code for Ansible Forum, opts="border"]
+`ansible-sign` is part of the Ansible Development Tools (ADT) suite. 
 
-After logging in to the Ansible Forum, link:hhttps://forum.ansible.com/t/introduce-yourself-2026-edition/45062?u=leo[introduce yourself in this topic] and feel free to mention that you just completed the Ansible Developer Tools lab!
+== Lab Guide: Hands-On Tasks
 
-[IMPORTANT]
-====
-Check the "Next Steps" section below to learn how to get the Ansible development tools installed on your own workstation or laptop!
-====
+
+=== Task 1: Create a GPG key 
+To use `ansible-sign` your workstation needs to have a GPG key available to cryptographically sign the content. Although it exceeds the scope of this workshop, we will create one quickly to show the end to end steps.
+
+.  *Install pinentry-curses, a dependency for gpg*:
++
+[source,bash,role=execute]
+----
+ sudo dnf install pinentry-curses
+----
+
+. *Create a gpg.txt file with the following content:*
+[source,bash,role=execute]
+----
+cat >~/gpg.txt <<EOF
+%echo Generating a basic OpenPGP key
+Key-Type: default
+Key-Length: 4096
+Subkey-Type: default
+Subkey-Length: default
+Name-Real: workshop
+Name-Comment: with no passphrase
+Name-Email: student@localhost
+Expire-Date: 0
+%no-ask-passphrase
+%no-protection
+# Do a commit here, so that we can later print "done" :-)
+%commit
+%echo done
+EOF
+----
+
+
+.  *Generate the gpg key:*
++
+[source,bash,role=execute]
+----
+gpg --batch --gen-key ~/gpg.txt
+----
+
+. *Verify the key is created:*
++
+[source,bash,role=execute]
+----
+gpg --list-secret-keys
+----
+
+=== Task 2: Supply-chain security: Signing your Ansible collection 
+
+This task demonstrates how to cryptographically sign an Ansible collection using `ansible-sign`.
+
+Signing is a critical step for enterprise workflows where content integrity, provenance, and trust are required, especially when publishing to Automation Hub or consuming content in controlled environments.
+
 
 ---
 
-== Review of learned concepts
+=== Prerequisites for using ansible-sign
 
-You have reached the end of the *Introduction to Ansible development tools* workshop. In this lab, you learned about and used some of the most important tools available to Ansible developers:
+* A GPG key already exists on the system
+* You are working inside the collection repository created earlier
+* The collection has been built into a distributable artifact
 
-* The **Ansible extension for VS Code** for a rich editing experience.
-* **`ansible-creator`** to scaffold new collections and content.
-* **`adt`** (Ansible development tools) for a unified command-line tools management.
-* **`ade`** (Ansible development environment) for managing collection dependencies.
-* **`ansible-lint`** for checking playbooks against best practices.
-* **`ansible-navigator`** for a powerful terminal-based user interface to run and test your execution environments.
-* **Ansible Molecule** for robustly testing your collections.
+NOTE: This task assumes the GPG key was created in the previous step and is present.
 
 ---
 
-== Call to action: Run `ansible-dev-tools` on your own workstation!
+=== Task 1: Create a MANIFEST.in File
 
-If you would like to get all of these tools running on your own Windows, macOS, or Linux machine, check out the following interactive guide. It will walk you through setting up a VS Code Dev Container, which is a great way to get a consistent and isolated development environment in any OS.
+. *In VS Code, create a new file called `MANIFEST.in`* in the root of you `mycollection` directory. Add the following content to it:
++
+[source,bash,role=execute]
+----
+# Exclude .venv FIRST before any includes
+global-exclude .venv
+global-exclude .venv/*
+prune .venv
 
-.Interactive Guide
-****
-link:https://interact.redhat.com/share/iKoPpilaNueRFTUzWnqL[Installing Ansible developer tools in VS Code in Windows, macOS or Linux using the Dev Container]
-****
+# Exclude .git
+global-exclude .git
+global-exclude .git/*
+prune .git
 
-[IMPORTANT]
-====
-Don't forget to share your feedback on this lab! Press the **Next** button at the bottom of the lab interface to leave a review once you've claimed your badge.
-====
+# Now include what you want
+include README.md
+include galaxy.yml
+recursive-include plugins *
+recursive-include roles *
+recursive-include playbooks *
+----
+
+=== Task 2: Sign the Project with ansible-sign
+
+. *Switch to `ade` to standard mode:* Before we can sign our packages, we need to disable editable mode to remove the recursive symlinks. 
++
+[source,bash,role=execute]
+----
+ade install .
+----
+
+. *Now we can sign the files listed in the `MANIFEST.in`:*
++
+[source,bash,role=execute]
+----
+ansible-sign project gpg-sign .
+----
++
+The output of the command above should look like this:
++
+[source,bash]
+----
+[OK   ] GPG signing successful!
+[NOTE ] Checksum manifest: ./.ansible-sign/sha256sum.txt
+[NOTE ] GPG summary: signature created
+----
+
+. *Verify the files in MANIFEST.in got checksums:*
++
+[source,bash,role=execute]
+----
+cat .ansible-sign/sha256sum.txt
+----
+
+. *Switch `ade` back to editable mode:*
++
+[source,bash,role=execute]
+----
+ade install --editable .
+----

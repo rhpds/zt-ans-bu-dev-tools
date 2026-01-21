@@ -57,7 +57,7 @@ if __name__ == '__main__':
     main()
 ----
 
-=== Task 2: Create a Playbook to Use the Module
+=== Task 2: Create a Playbook to use the new module
 
 Now, you will switch to your playbook project folder and create a new playbook that calls your custom module.
 
@@ -120,6 +120,7 @@ image::vscode-devtools-lint-fix.png[Ansible Lint settings, opts="border"]
     - name: Display the result
       ansible.builtin.debug:
         msg: "{{ result.message }}"
+
 ----
 
 === Task 4: Run the Playbook
