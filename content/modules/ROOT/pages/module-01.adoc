@@ -10,9 +10,18 @@ _A brief introduction to the workshop, including tips for the lab environment._
 
 == Workshop Overview
 
-Welcome to the Ansible development tools workshop!
+Welcome to the Intro to creating automation with the new Ansible Development Tools workshop!
 
-In this lab, you will learn how to create, test, and deploy an Ansible collection using the Ansible development tools, including `ansible-creator`, `ansible-lint`, `ansible-navigator`, `molecule`, `ansible-builder`, the Visual Studio Code (VS Code) editor and the official Ansible extension.
+This workshop introduces *Ansible Development Tools* as a modern, opinionated toolchain for building, testing, and distributing Ansible content.
+
+Rather than focusing on individual commands in isolation, the workshop emphasizes:
+
+* Consistency across environments
+* Reproducible development workflows
+* Improved developer experience
+* Alignment with enterprise automation practices
+
+The objective is to understand how Ansible content is developed today, not just how it is executed.
 
 ---
 
@@ -29,9 +38,129 @@ Before we begin, here are some basic tips to improve your lab experience:
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
-.   The lab consists of several **Chapters** (or sections). Each chapter contains one or more **Tasks**.
+.   The lab consists of several **Modules** (also known as Chapters or Sections). Each **Module** contains one or more **Tasks**.
 
-.   When you finish a **Chapter**, you must click the **Next** button at the bottom of the instructions sidebar to proceed. 
+.   When you finish a **Module**, you must click the **Next** button at the bottom of the instructions sidebar to proceed. 
 
-.   You can now click **Next** to continue!
+---
 
+== What Are Ansible Development Tools?
+
+Ansible Development Tools (often referred to as *Ansible Dev Tools* or `ansible-dev-tools`) are a curated bundle of command-line tools designed to support the entire Ansible content lifecycle.
+
+These tools cover:
+
+* Project scaffolding
+* Local development environments
+* Linting and static analysis
+* Testing with ephemeral infrastructure
+* Content signing
+* Execution Environment creation
+* CI/CD integration
+
+Instead of assembling and maintaining these tools individually, the bundle provides known-good versions and predictable integration between tools.
+
+---
+
+== Why Use the ansible-dev-tools bundle?
+
+Using the Ansible Dev Tools bundle provides several key advantages.
+
+=== Reproducibility
+
+All contributors use the same tools and compatible versions, locally and in automation pipelines, reducing environment-related issues.
+
+=== Integrated Workflow
+
+The tools are designed to work together:
+
+* Scaffolding feeds testing
+* Testing feeds packaging
+* Packaging feeds publishing
+
+This enables a smooth transition from development to distribution.
+
+=== Shift-Left Quality
+
+Quality checks are applied early in the development lifecycle through linting, testing, and policy enforcement.
+
+=== Enterprise Alignment
+
+The workflow aligns with enterprise automation practices, including Automation Hub, Execution Environments, and signed content.
+
+---
+
+== Tools You Will Encounter in This Workshop
+
+Throughout the workshop, you will work with several Ansible development tools, including:
+
+* `ansible-creator` for project scaffolding
+* `ansible-lint` for static analysis and best practices
+* `molecule` for role and collection testing
+* `ansible-navigator` for a consistent execution interface
+* `ansible-sign` for content signing
+* `ansible-builder` for Execution Environment creation
+* Supporting tools such as `tox`, `pytest-ansible`, and container engines
+
+Each tool will be introduced when it becomes relevant in the workflow.
+
+---
+
+== Installation and Environment Options (Overview)
+
+Ansible Development Tools can be consumed in multiple ways depending on workflow and system requirements.
+
+This workshop uses one of this approaches, but you will be able to install `ansible-dev-tools` with the option that adapts best to your situation.
+
+=== Dev Containers
+
+* Preconfigured and containerized development environments
+* Ideal for integrating with VS Code
+* Consistent across OS platforms, supporting Mac OS, Windows and Linux
+* Red Hat supported and community options
+
+=== RPM Packages
+
+* Suitable for RHEL-based systems
+* System-level integration
+* Common in enterprise environments
+* Red Hat supported
+
+=== Dev Spaces (Future Direction)
+
+* Browser-based, cloud-hosted development environments
+* Centralized configuration
+* Minimal local setup
+* Red Hat supported and community options
+
+=== Python Packages (pip)
+
+* Flexible and lightweight
+* Often combined with virtual environments
+* Common for local developer setups
+* Community supported
+
+Regardless of the installation method, the development workflow remains consistent.
+
+---
+
+== Scope and Expectations
+
+This workshop focuses on development workflows and tooling.
+
+It assumes basic familiarity with Ansible concepts and does not cover introductory Ansible usage or production operations.
+
+---
+
+== What Comes Next
+
+In the following modules, you will:
+
+. Scaffold an Ansible project using modern tooling
+. Understand how environments and dependencies are managed
+. Apply linting and testing to improve content quality
+. Build Execution Environments suitable for automation platforms
+. Package and sign content
+
+
+By the end of the workshop, you should understand not only how to use the tools, but also how they fit together in a complete development workflow.

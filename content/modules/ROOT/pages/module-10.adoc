@@ -1,0 +1,58 @@
+= Workshop Conclusion: What's Next?
+:doctype: book
+:experimental:
+:notoc:
+:toc-title: Table of Contents
+:nosectnums:
+:icons: font
+
+_A summary of the Ansible development tools you've learned and resources for continuing your learning journey._
+
+---
+
+== Congratulations! 🎉
+
+You have successfully completed the **"Intro to creating automation with the new Ansible Development Tools"** workshop!
+
+=== Join the Ansible Forum
+
+**Scan** the QR code below to sign up to the Ansible Forum if you haven't yet, if you already have scan anyway and you might get a Badge for completing the workshop if you approach your instructor with your username!
+
+image:qr-ansible-forum-workshop-completed.png[QR code for Ansible Forum, opts="border"]
+
+After logging in to the Ansible Forum, link:hhttps://forum.ansible.com/t/introduce-yourself-2026-edition/45062?u=leo[introduce yourself in this topic] and feel free to mention that you just completed the Ansible Developer Tools lab!
+
+[IMPORTANT]
+====
+Check the "Next Steps" section below to learn how to get the Ansible development tools installed on your own workstation or laptop!
+====
+
+---
+
+== Review of learned concepts
+
+You have reached the end of the *Introduction to Ansible development tools* workshop. In this lab, you learned about and used some of the most important tools available to Ansible developers:
+
+* The **Ansible extension for VS Code** for a rich editing experience.
+* **`ansible-creator`** to scaffold new collections and content.
+* **`adt`** (Ansible development tools) for a unified command-line tools management.
+* **`ade`** (Ansible development environment) for managing collection dependencies.
+* **`ansible-lint`** for checking playbooks against best practices.
+* **`ansible-navigator`** for a powerful terminal-based user interface to run and test your execution environments.
+* **Ansible Molecule** for robustly testing your collections.
+
+---
+
+== Call to action: Run `ansible-dev-tools` on your own workstation!
+
+If you would like to get all of these tools running on your own Windows, macOS, or Linux machine, check out the following interactive guide. It will walk you through setting up a VS Code Dev Container, which is a great way to get a consistent and isolated development environment in any OS.
+
+.Interactive Guide
+****
+link:https://interact.redhat.com/share/iKoPpilaNueRFTUzWnqL[Installing Ansible developer tools in VS Code in Windows, macOS or Linux using the Dev Container]
+****
+
+[IMPORTANT]
+====
+Don't forget to share your feedback on this lab! Press the **Next** button at the bottom of the lab interface to leave a review once you've claimed your badge.
+====
