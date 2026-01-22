@@ -90,7 +90,7 @@ def test_cowsay_module(ansible_module):
 
 ----
 
-, *Now create the `conftest.py` file* with the following content:
+. *Now create the `conftest.py` file with the following content:*
 +
 [source,python]
 ----
