@@ -65,7 +65,7 @@ localhost ansible_connection=local ansible_python_interpreter=python3
 
 . *Inside the `mycollection/tests/` directory*, create a `conftest.py` file with the following content:
 +
-[source,python]
+[source,python,role=execute]
 ----
 import os
 import sys
@@ -155,6 +155,7 @@ def test_cowsay_module(ansible_module):
     assert "_" in output_text or "-" in output_text, "Output doesn't look like cowsay format"
     assert "\\" in output_text or "/" in output_text, "Missing cowsay speech bubble borders"
     assert "(oo)" in output_text, "Checking for the cow eyes failed"
+    
 ----
 +
 [NOTE]
@@ -165,6 +166,17 @@ This test validates both the module's execution (no failures, correct change sta
 ---
 
 === Task 4: Run the Test
+
+. *Open the VS Code Terminal if you don't have one*
+
+
+. *Verify the VS Code Terminal is in the venv:*
++
+[source,ini,role=execute]
+----
+cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
+source .venv/bin/activate
+----
 
 . *From the root of the collection repository (`mycollection/`), run:*
 +
@@ -177,8 +189,21 @@ pytest
 +
 [source,bash,role=execute]
 ----
-# Add expected output here
+ tests/integration/test_integration.py::test_integration[NOTSET] s                                                   33% ███▍      
+[gw0] SKIPPED tests/integration/test_integration.py 
+ tests/unit/test_basic.py::test_basic ✓                                                                              67% ██████▋   
+[gw0] PASSED tests/unit/test_basic.py 
+ tests/test_cowsay.py::test_cowsay_module ✓                                                                         100% ██████████
+[gw1] PASSED tests/test_cowsay.py 
+
+[... warnings here ...]
+
+Results (1.15s):
+       2 passed
+       1 skipped
 ----
+NOTE: You might see warnings between the Results and PASSED tests/test_cowsay.py. That's ok. 
+
 
 ---
 

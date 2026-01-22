@@ -92,7 +92,7 @@ echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/$USER/.profile
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /etc/profile
 
 ## install the latest ansible-dev-tools package
-pip3 install --upgrade ansible-dev-tools ansible-core==2.18.12
+pip3 install --upgrade ansible-dev-tools ansible-core==2.18.5
 
 ## start the vscode server and sleep to give it time
 systemctl start code-server

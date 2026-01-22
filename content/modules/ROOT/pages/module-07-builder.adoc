@@ -41,13 +41,37 @@ Open the **Ansible extension** in the VS Code sidebar and click the **Execution 
 image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border"]
 
 .   **Fill out the Execution environment project details**. Use the following information:
-* **Destination path:** `/home/rhel/myansibleproject`
+* **Destination path:** 
++
+[source,bash,role=execute]
+----
+/home/rhel/myansibleproject
+----
++
 * **Base image:** Select the `registry.redhat.io` option from the dropdown to use the Red Hat supported image. 
 +
 NOTE: This will require to be logged in to the registry before building the image. For the lab this is not required.
-* **Additional collections:** `mynamespace.mycollection`
-* **Additional python packages:** `cowsay`
-* **Tag:** `mycollection-ee`
+* **Additional collections:**
++
+[source,bash,role=execute]
+----
+mynamespace.mycollection
+----
++
+* **Additional python packages:** 
++
+[source,bash,role=execute]
+----
+cowsay
+----
++
+* **Tag:** 
++
+[source,bash,role=execute]
+----
+mycollection-ee
+----
++
 * **Leave all the other fields as they are**
 * Click the blue **Build** button. You might need to scroll down to find it.
 +
