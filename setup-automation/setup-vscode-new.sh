@@ -31,7 +31,9 @@ cert: false
 EOF
 
 systemctl start code-server
-dnf -y install unzip nano git podman pinentry-curses tree
+
+## install system utilities
+dnf install unzip nano git podman pinentry-curses tree -y 
 
 ## Configure sudoers for rhel user
 echo "%rhel ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/rhel_sudoers
@@ -40,7 +42,7 @@ chmod 440 /etc/sudoers.d/rhel_sudoers
 
 ## Set up error handling and DNS resolution
 set -euxo pipefail
-sudo dnf -y install jq
+sudo dnf -y install jq 
 sudo dnf -y update crun
 
 
@@ -85,11 +87,14 @@ chown $USER:$USER /home/$USER/.profile
 ## Enable linger for the rhel user
 loginctl enable-linger $USER
 
-##
+## fix paths
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/$USER/.profile
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /etc/profile
 
-pip3 install --upgrade --force-reinstall ansible-dev-tools
+## install the latest ansible-dev-tools package
+pip3 install --upgrade ansible-dev-tools 
+pip3 install ansible-core==2.18.5
 
+## start the vscode server and sleep to give it time
 systemctl start code-server
 sleep 15

@@ -29,7 +29,7 @@ antora:
       label: "Introducing supply chain security with ansible-sign"
       solveButton: false
     - name: module-10
-      label: "What's next?"
+      label: "What's next ?"
       solveButton: false
 
 tabs:
