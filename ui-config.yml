@@ -5,24 +5,32 @@ antora:
   dir: www
   modules:
     - name: module-01
-      label: "Workshop tips"
+      label: "Workshop overview and tips"
       solveButton: false
-    - name: module-02
+    - name: module-02-collection
       label: "Creating a collection with the Ansible extension for VS Code"
       solveButton: false
-    - name: module-03
+    - name: module-03-ade
       label: "Using Ansible developement environment"
       solveButton: false
-    - name: module-04
+    - name: module-04-module
       label: "Adding a module to our collection"
       solveButton: false
-    - name: module-05
+    - name: module-05-molecule
       label: "Testing our collection with Molecule"
       solveButton: false
-    - name: module-06
-      label: "What's next ?"
+    - name: module-06-pytest
+      label: "Functional testing with pytest-ansible"
       solveButton: false
-
+    - name: module-07-builder
+      label: "Creating an Execution Environment with ansible-builder"
+      solveButton: false
+    - name: module-08-sign
+      label: "Introducing supply chain security with ansible-sign"
+      solveButton: false
+    - name: module-10
+      label: "What's next?"
+      solveButton: false
 
 tabs:
   - name: VS Ccode
