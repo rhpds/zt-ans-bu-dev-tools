@@ -1,0 +1,150 @@
+= Lab Guide: Adding a Module to a Collection
+:doctype: book
+:experimental:
+:notoc:
+:toc-title: Table of Contents
+:nosectnums:
+:icons: font
+
+_A guide to adding a custom module to your Ansible collection and using it in a playbook._
+
+---
+
+== Lab Briefing
+
+In this challenge, you will be adding content in the form of a Ansible **module plugin** to the collection you created, and then using the module for a new playbook, which you will fix with `ansible-lint` before running it with `ansible-navigator`.
+
+
+---
+
+== Lab Guide: Hands-On Tasks
+
+In this exercise, you will copy an existing Python module into your collection's `plugins/modules` directory. While you can develop your own modules from scratch, we will use a pre-written one for simplicity.
+
+=== Task 1: Add a Custom Module to the Collection
+
+First, you will create a new Python file and add the code for a simple `cowsay` module.
+
+.   **Create the module file.** In the VS Code file explorer on the left, expand the `plugins` directory, then right-click on the `modules` directory and select **New File**. Name the file `cowsay.py`.
+
+.   **Add the Python code.** **Copy** the following Python code and **paste** it into the `cowsay.py` file you just created.
++
+[source,python,role=execute]
+----
+from ansible.module_utils.basic import AnsibleModule
+import subprocess
+
+def run_cowsay(message):
+    result = subprocess.run(['cowsay', '-t', message], capture_output=True, text=True)
+    return result.stdout
+
+def main():
+    module_args = dict(
+        message=dict(type='str', required=True)
+    )
+
+    module = AnsibleModule(
+        argument_spec=module_args,
+        supports_check_mode=True
+    )
+
+    message = module.params['message']
+    result = run_cowsay(message)
+
+    module.exit_json(changed=False, message=result.split('\n'))
+
+if __name__ == '__main__':
+    main()
+----
+
+=== Task 2: Create a Playbook to use the new module
+
+Now, you will switch to your playbook project folder and create a new playbook that calls your custom module.
+
+.   **Open the playbook project folder.** In the VS Code top menu, select **File** → **Open Folder...**.
+
+.   **Enter the correct path.** In the prompt, **enter** the path `/home/rhel/myansibleproject` and **click** the blue **OK** button.
++
+image::vscode-devtools-folder-myansibleproject.png[Open Ansible Playbook Project, opts="border"]
+
+.   After the window reloads, **create a new playbook file.** In the file explorer on the left, **right-click** in the empty space below `site.yml` and select **New File**. Name the file `mycowsay.yml`.
+
+.   **Add the playbook content.** **Copy** and **paste** the following content into the `mycowsay.yml` file:
++
+[source,yaml,role=execute]
+----
+---
+- hosts: localhost
+  tasks:
+    - name: test the cowsay module
+      mynamespace.mycollection.cowsay:
+        message: Hello, Ansible!
+      register: result
+
+    - name: Display the result
+      ansible.builtin.debug:
+        msg: "{{ result.message }}"
+----
+
+=== Task 3: Use Ansible Lint to Fix the Playbook
+
+You will notice red curly lines under parts of your playbook. These are warnings from `ansible-lint`. You will now use its auto-fix capabilities.
+
+image::May-06-2025_at_22.28.04-image.png[Ansible Lint warnings in VS Code, opts="border"]
+
+.   **Open the Ansible extension settings**. Click the **Ansible** icon in the left sidebar then the **Settings** option in the menu.
++
+image::vscode-devtools-extension-settings.png[Ansible Extension Settings, opts="border"]
+
+.   **Enable the linter and auto-fix.** In the search bar at the top, type `lint` to filter the settings.
+* Make sure the checkbox for `Ansible › Validation › Lint: Enabled` is checked.
+* In the `Ansible › Validation › Lint: Arguments` field below, enter `--fix`. This tells the linter to automatically fix issues it finds.
++
+image::vscode-devtools-lint-fix.png[Ansible Lint settings, opts="border"]
+
+.   **Trigger the auto-fix.** Go back to the `mycowsay.yml` playbook tab and **save the file** (`Ctrl + S` or `Cmd + S`). Wait a few seconds for `ansible-lint` to run. It should automatically fix several formatting issues.
+
+.   **Apply the final manual fix.** One warning will remain. **Hover** your mouse over it to see the reason: "All plays should be named." The linter cannot fix this for you. To fix it, **add** a `- name:` line to the play. The final, correct playbook should look like this:
++
+[source,yaml,role=execute]
+----
+---
+- name: Using our cowsay module
+  hosts: localhost
+  tasks:
+    - name: Test the cowsay module
+      mynamespace.mycollection.cowsay:
+        message: Hello, Ansible!
+      register: result
+
+    - name: Display the result
+      ansible.builtin.debug:
+        msg: "{{ result.message }}"
+
+----
+
+=== Task 4: Run the Playbook
+
+Now that your playbook is lint-free, let's run it using both `ansible-playbook` and `ansible-navigator`. Go back to the **VS Code file Explorer** view.
+
+.   **Run with `ansible-playbook`.** In the VS Code file explorer, **right-click** your `mycowsay.yml` playbook. From the context menu, select **Run Ansible Playbook**. The output in the terminal should display a friendly cow saying "Hello, Ansible!".
++
+image::vscode-devtools-cowsay-run1.png[Playbook output with cowsay message, opts="border"]
+
+.   **Run with `ansible-navigator`.** **Right-click** the playbook again, but this time select **Run with Ansible Navigator**. This will launch the Terminal User Interface (TUI).
++
+image::vscode-devtools-cowsay-run2.png[Ansible Navigator TUI, opts="border"]
+
+.   **Explore the Navigator output.** You are now inside the `ansible-navigator` TUI.
+* To the left of the play name, you will see the number `0`. **Press `0`** to drill down into the details for that play.
+* You can now see the three tasks from your playbook. **Press `2`** to see the output of the final "Display the result" task.
+* You may need to scroll down to find the cow message.
++
+image::vscode-devtools-cowsay-navigator.png[Viewing task output in Ansible Navigator, opts="border"]
+
+.   **Exit Ansible Navigator.** **Press** the `ESC` key three times to exit the TUI and return to the normal terminal prompt.
+
+---
+== Next Steps
+
+You have successfully added and tested a custom module in your collection. Please click the **Next** button below to proceed to the next module.

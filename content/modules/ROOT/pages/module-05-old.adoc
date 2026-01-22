@@ -1,0 +1,99 @@
+= Lab Guide: Testing a Collection with Ansible Molecule
+:doctype: book
+:experimental:
+:notoc:
+:toc-title: Table of Contents
+:nosectnums:
+:icons: font
+
+_A guide to testing your Ansible collection using Ansible Molecule and a pre-configured test scenario._
+
+---
+
+== Lab Briefing
+
+In this challenge, you will explore and test the collection you created using **Ansible Molecule**.
+
+Ansible Molecule is a tool designed to aid in developing and testing Ansible playbooks, collections, and roles. It provides support for testing Ansible content across multiple instances, operating systems, and providers.
+
+**Scenarios** are the starting point for Molecule's powerful functionality. Think of a scenario as a test suite for your Ansible content. You can have as many scenarios as you like, and Molecule will run them sequentially.
+
+---
+
+== Lab Guide: Hands-On Tasks
+
+Now, let's explore the test scenario that was automatically added to your collection project.
+
+=== Task 1: Explore the Molecule Scenario
+
+When you created the collection in the previous challenge, `ansible-creator` also generated a Molecule test scenario named `integration_hello_test`.
+
+.   **Locate the Molecule scenario.** In the VS Code file explorer, **expand** the following directory path: __collections > ansible_collections > mynamespace > mycollection > extensions > molecule
+ > integration_hello_world__. 
+ 
+NOTE: You can also copy and paste the path: `collections/ansible_collections/mynamespace/mycollection/extensions/molecule/integration_hello_world`.
+
+.   **Examine the Molecule configuration.** Within the `integration_hello_world` directory, **open** the `molecule.yml` file. Molecule uses this file to define the settings and scenarios for testing the Ansible collection.
++
+image::vscode-devtools-molecule-yml.png[Molecule configuration file in VS Code, opts="border"]
+
+.   **Examine the test playbook.** Under the `extensions` directory, **expand** the `utils/playbooks` directory. **Open** the `converge.yml` playbook and observe how it is structured to call integration tests from the `tests/` directory.
++
+image::vscode-devtools-molecule-converge.png[Converge playbook for the Molecule test, opts="border"]
+
+=== Task 2: Create a Filter Plugin
+
+Next, you will add a new filter plugin to your collection using the Ansible extension.
+
+.   **Open the Collection plugin creator.** In the VS Code sidebar, **click** the Ansible extension icon. In the *ADD* section, **click** **Collection plugin**.
++
+image::May-12-2025_at_21.51.02-image.png[Creating a Collection plugin, opts="border"]
+
+.   **Fill out the plugin details.** **Fill** out the form with the following information:
+* **Collection root directory:**
++
+[source,text,role=execute]
+----
+/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
+----
+* **Plugin type:** `Filter`
+* **Plugin name:** `hello_world`
+
+.   **Create the plugin** by clicking the blue **Create** button.
+
+=== Task 3: Run the Molecule Test
+
+Finally, you will use the command line to run the Molecule test scenario.
+
+.   **Navigate to the correct directory.** In the VS Code Terminal, **change** to the `extensions/` sub-directory of your collection:
++
+[source,bash,role=execute]
+----
+cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/extensions/
+----
+
+.   **Run a bare Molecule test.** First, run `molecule test` without specifying a scenario. 
++
+[source,bash,role=execute]
+----
+molecule test
+----
+
+WARNING: You will see error messages, which is expected because you must provide a scenario name.
+
+.   **Run the test with the correct scenario.** Now, **run** the command again, this time specifying the scenario with the `-s` flag:
++
+[source,bash,role=execute]
+----
+molecule test -s integration_hello_world
+----
+
+.   **Observe the successful test run.** Success! You can see Molecule running the included tests and confirming that all assertions passed.
++
+image::vscode-devtools-molecule-passed.png[Successful Molecule test output in the terminal, opts="border"]
+
+---
+
+== Next Steps
+
+You have successfully used Molecule to test your collection. Please click the **Next** button below to proceed to the next module.
