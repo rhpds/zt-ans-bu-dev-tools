@@ -41,7 +41,7 @@ Open the **Ansible extension** in the VS Code sidebar and click the **Execution 
 image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border"]
 
 .   **Fill out the Execution environment project details**. Use the following information:
-* **Destination path:** `/home/rhel/myansibleproject`
+* **Destination path:** /home/rhel/myansibleproject`
 * **Base image:** Select the `registry.redhat.io` option from the dropdown to use the Red Hat supported image. 
 +
 NOTE: This will require to be logged in to the registry before building the image. For the lab this is not required.
@@ -86,7 +86,7 @@ options:
 ----
 +
 [IMPORTANT]
-.Microdnf Requirement
+.microdnf requirement
 ====
 Because the base image (`ee-minimal-rhel8:latest`) is built on UBI-minimal, which uses `microdnf`, you must specify `package_manager_path: /usr/bin/microdnf` in the options section for the build to succeed.
 ====
@@ -263,13 +263,6 @@ Use `ansible-navigator` to run your `mycowsay.yml` playbook with your newly crea
 ansible-navigator run mycowsay.yml --execution-environment-image mycollection-ee --pull-policy never
 ----
 
-. *Congrats!*
-+
-If everything worked correctly, you should have gotten the cow  saying "Hello, Ansible!"!
-
-
-== WIP WIP WIP
-
 . *Test the cowsay module documentation:*
 +
 Run a quick test inside the container to verify the custom collection and module dependency were successfully packaged.
@@ -279,10 +272,7 @@ Run a quick test inside the container to verify the custom collection and module
 podman run mynamespace/mycollection-ee:latest ansible-doc -t module mynamespace.mycollection.cowsay
 ----
 +
-This command should display the documentation for your custom module, but we didn't add the corresponding metadata blocks! If you still have time and would like to give it a try, check the docunmentation here and try to expand your module with the required metadata:
-+
-https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_modules_documenting.html#dev-testing-module-documentation
-
+IMPORTANT: This command should display the documentation for your custom module, but we didn't add the corresponding metadata blocks! We will leave it to you as an optional task to research and fix this issue!
 
 ---
 == Next Steps
