@@ -31,6 +31,8 @@ For this lab, all necessary tools and dependencies are pre-installed and configu
 
 === Task 0: Create a Collection Using the ansible-creator CLI
 
+Lets start by running `ansible-creator` in the command line to scaffold a collection, with the directory structure and several file templates to speed up our content development. In the following tasks we will do the same using the Ansible extension in VS Code.
+
 .   **Open the VS Code Terminal** by clicking the **Terminal** on the top VS Code menu, then **New Terminal** option. If you already have a Terminal open in VS Code you can reuse that one.
 +
 image::vscode-devtools-terminal.png[VS Code terminal, opts="border"]
@@ -42,11 +44,11 @@ image::vscode-devtools-terminal.png[VS Code terminal, opts="border"]
 ansible-creator init collection mynamespace.my_cli_collection /home/rhel/myansibleproject/collections/ansible_collections
 ----
 
-. **Inspect the generated structure and files:**
+. **Inspect the generated collection structure and files:**
 +
 [source,sh,role=execute]
 ----
-ls -lha /home/rhel/myansibleproject/collections/ansible_collections/mynamespace.my_cli_collection
+ls -lha /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/my_cli_collection
 ----
 
 . **Congrats:** You created a default collection. Move to the next tasks to see how to do this in VS Code and how to customize it.
