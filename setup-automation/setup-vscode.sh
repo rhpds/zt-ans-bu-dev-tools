@@ -90,7 +90,6 @@ echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/$USER/.profile
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /etc/profile
 
 pip3 install --upgrade --force-reinstall ansible-dev-tools
-pip3 install --upgrade --force-reinstall ansible-core==2.18.5
 
 systemctl start code-server
 sleep 15
