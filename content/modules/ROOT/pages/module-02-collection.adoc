@@ -160,9 +160,9 @@ image::vscode-devtools-playbook-create.png[Creating a Playbook project, opts="bo
 Note: playbook project created at /home/rhel/myansibleproject
 ----
 
-=== Task 4: Open the Collection Folder
+=== Task 4: Open the `mycollection` Folder
 
-Due to a lab infrastructure limitation, you will now manually open the folder where your new collection content was created.
+Due to a lab infrastructure and VS Code limitation, you will now manually open the folder where your new collection content was created.
 
 .   **Open the file Explorer** by clicking the Explorer icon (the icon with two files) in the VS Code left sidebar.
 +

@@ -31,7 +31,9 @@ cert: false
 EOF
 
 systemctl start code-server
-dnf install unzip nano git podman -y 
+
+## install system utilities
+dnf install unzip nano git podman pinentry-curses tree -y 
 
 ## Configure sudoers for rhel user
 echo "%rhel ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/rhel_sudoers
@@ -40,7 +42,7 @@ chmod 440 /etc/sudoers.d/rhel_sudoers
 
 ## Set up error handling and DNS resolution
 set -euxo pipefail
-sudo dnf -y install jq pinentry-curses
+sudo dnf -y install jq 
 sudo dnf -y update crun
 
 
