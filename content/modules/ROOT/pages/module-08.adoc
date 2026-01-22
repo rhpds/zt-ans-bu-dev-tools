@@ -1,4 +1,4 @@
-= Workshop Conclusion: What's Next?
+= Lab Guide: Functional testing with pytest-ansible
 :doctype: book
 :experimental:
 :notoc:
@@ -22,5 +22,172 @@ The pytest-ansible plugin is designed to provide seamless integration between py
 
 Unit Testing for Ansible Collections: This feature aids in running unit tests for Ansible collections using pytest. It allows you to validate the behavior of your Ansible modules and roles in isolation, ensuring that each component functions as expected.
 
+This optional task introduces *module-level testing* using `pytest-ansible`.
 
-=== Task 1: 
+While Molecule focuses on higher-level integration testing, `pytest-ansible` allows you to test individual Ansible modules and plugins directly using pytest.
+
+---
+
+=== Why pytest-ansible?
+
+`pytest-ansible` integrates Ansible with pytest by exposing fixtures that allow Ansible content to be executed and inspected as part of standard Python tests.
+
+This is especially useful for:
+* Custom modules
+* Filter plugins
+* Lookup plugins
+* Small, fast validation tests
+
+These tests run quickly and are well-suited for CI pipelines.
+
+---
+
+=== Test Scope
+
+In this task, we will test the custom `cowsay` module developed earlier in the collection:
+
+* Module: `mynamespace.mycollection.cowsay`
+* Test type: Unit / functional test
+* Target: Local test host
+
+---
+
+=== Task 1: Create the Test File
+
+. *Inside the `mycollection/tests/` directory*, create a `test_cowsay.py` file and add the following content:
++
+[source,python]
+----
+def test_cowsay_module(ansible_module):
+    """
+    Test the cowsay module functionality.
+    """
+    
+    # 1. Define the input
+    test_message = "Hello, pytest-ansible!"
+    module_args = {
+        "message": test_message
+    }
+
+    # 2. Run the module
+    result = ansible_module.cowsay(**module_args)
+    host_result = result['localhost']
+
+    # 3. Validation
+    assert not host_result.get('failed', False)
+    assert not host_result['changed']
+    
+    # Reconstruct the output string
+    output_text = "\n".join(host_result['message'])
+    
+    # 4. Flexible Assertion
+    # Check that our input message appears somewhere in the output
+    assert test_message in output_text
+    
+    # Check for the cow signature to ensure it's actually cowsay output
+    # (Checking for the eyes 'oo' is usually a safe bet for the default cow)
+    assert "(oo)" in output_text
+
+----
+
+, *Now create the `conftest.py` file* with the following content:
++
+[source,python]
+----
+import os
+import sys
+import pytest
+
+# This block executes immediately when pytest starts, 
+# ensuring Ansible sees the paths before loading any plugins.
+
+# Get the absolute path of the 'tests' directory
+TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Project root (mycollection folder)
+PROJECT_ROOT = os.path.dirname(TESTS_DIR)
+
+# 1. Set ANSIBLE_LIBRARY so it finds 'cowsay' by short name
+# Points to: .../mycollection/plugins/modules
+MODULES_PATH = os.path.join(PROJECT_ROOT, 'plugins', 'modules')
+os.environ['ANSIBLE_LIBRARY'] = MODULES_PATH
+
+# 2. Set ANSIBLE_COLLECTIONS_PATH so it finds the full namespace
+# Points to: .../myansibleproject/collections
+# (We go up 3 levels: mycollection -> mynamespace -> ansible_collections -> collections root)
+COLLECTIONS_PATH = os.path.abspath(os.path.join(PROJECT_ROOT, '../../..'))
+os.environ['ANSIBLE_COLLECTIONS_PATH'] = COLLECTIONS_PATH
+
+# Optional: Print paths if you need to debug (will show in pytest -s)
+# print(f"DEBUG: ANSIBLE_LIBRARY={os.environ['ANSIBLE_LIBRARY']}")
+# print(f"DEBUG: ANSIBLE_COLLECTIONS_PATH={os.environ['ANSIBLE_COLLECTIONS_PATH']}")
+----
+
+. *Now create the `inventory` file inside the `tests` directory:*
++
+[source,python]
+----
+[local]
+localhost ansible_connection=local ansible_python_interpreter=python3
+----
+
+
+---
+
+=== Task 2: Run the Test
+
+. *From the root of the collection repository, run:*
+
+[source,bash]
+----
+pytest
+----
+
+If the module behaves as expected, the test should pass.
+
+---
+
+
+=== Molecule vs pytest-ansible
+
+[cols="1,3",options="header"]
+|===
+| Tool | Purpose
+| Molecule
+| Integration and role testing using ephemeral infrastructure
+
+| pytest-ansible
+| Unit and functional testing of individual modules and plugins
+|===
+
+Molecule validates *how content behaves in a system context*, while pytest-ansible validates *how individual components behave in isolation*.
+
+---
+
+=== When to Use Each Tool
+
+* Use Molecule when testing:
+** Roles
+** Complex interactions
+** OS-specific behavior
+
+* Use pytest-ansible when testing:
+** Custom modules
+** Plugins
+** Small, fast logic checks
+
+Both tools complement each other and are commonly used together in professional Ansible content pipelines.
+
+---
+
+=== Key Takeaway
+
+Molecule ensures your automation works in real environments.
+
+pytest-ansible ensures your building blocks behave correctly.
+
+Using both provides layered confidence in your Ansible content.
+
+
+
+
