@@ -12,27 +12,36 @@ _Learn how to sign content by using ansible-sign and apply supply-chain security
 
 == Lab Briefing
 
- `ansible-sign`: Utility for signing and verifying Ansible project directory contents.Project signing and verification lets you sign files in your project directory, then verify whether or not that content has changed in any way, or files have been added or removed from the project unexpectedly. To do this, you require a private key for signing and a matching public key for verifying. 
+`ansible-sign`: Utility for signing and verifying Ansible project directory contents.
 
-
-== Enhanced Developer Experience
-
-`ansible-sign` is part of the Ansible Development Tools (ADT) suite. 
+Project signing and verification lets you sign files in your project directory, then verify whether or not that content has changed in any way, or files have been added or removed from the project unexpectedly. To do this, you require a private key for signing and a matching public key for verifying.
 
 == Lab Guide: Hands-On Tasks
 
+**The Workflow for Signing AAP Projects:**
+
+* Sign your project directory containing playbooks, rulebooks, roles, etc.
+* Sync the signed project to AAP's Project Sync
+* AAP verifies the signature before execution
+* Only validated, trusted content runs
+
+Using ansible-sign together with the Automation Hub collection signing feature allows to secure the supply chain end-to-end from content development to production.
+
+NOTE: In this lab we will only cover the workstation side of the content signing. You can apply what you learned here to verify content on your own AAP instance later.
 
 === Task 1: Create a GPG key 
+
 To use `ansible-sign` your workstation needs to have a GPG key available to cryptographically sign the content. Although it exceeds the scope of this workshop, we will create one quickly to show the end to end steps.
 
 .  *Install pinentry-curses, a dependency for gpg*:
 +
 [source,bash,role=execute]
 ----
- sudo dnf install pinentry-curses
+ sudo dnf install pinentry-curses -y
 ----
 
 . *Create a gpg.txt file with the following content:*
++
 [source,bash,role=execute]
 ----
 cat >~/gpg.txt <<EOF
@@ -70,26 +79,30 @@ gpg --list-secret-keys
 
 === Task 2: Supply-chain security: Signing your Ansible collection 
 
-This task demonstrates how to cryptographically sign an Ansible collection using `ansible-sign`.
-
-Signing is a critical step for enterprise workflows where content integrity, provenance, and trust are required, especially when publishing to Automation Hub or consuming content in controlled environments.
-
+This task demonstrates how to cryptographically sign an Ansible Project using `ansible-sign`. We will be using `myansibleproject` and our `mycowsay.yml` playbook.
 
 ---
 
-=== Prerequisites for using ansible-sign
+=== Task 1: Set the environment
 
-* A GPG key already exists on the system
-* You are working inside the collection repository created earlier
-* The collection has been built into a distributable artifact
+. *Make sure you are in the `myansibleproject` directory:*
++
+[source,bash,role=execute]
+----
+cd /home/rhel/myansibleproject
+----
 
-NOTE: This task assumes the GPG key was created in the previous step and is present.
+. *Switch `ade` to standard mode:* Before we can sign our packages, we need to disable editable mode to remove the recursive symlinks. 
++
+[source,bash,role=execute]
+----
+ade install /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
+----
 
----
 
-=== Task 1: Create a MANIFEST.in File
+=== Task 2: Create a MANIFEST.in File
 
-. *In VS Code, create a new file called `MANIFEST.in`* in the root of you `mycollection` directory. Add the following content to it:
+. *In VS Code, create a new file called `MANIFEST.in`* in the root of your project. Add the following content to it. We will be excluding a couple of directories and signing a REAME and playbook. This is only meant as an example, your needs might vary:
 +
 [source,bash,role=execute]
 ----
@@ -103,24 +116,16 @@ global-exclude .git
 global-exclude .git/*
 prune .git
 
-# Now include what you want
+# Now include what you want to sign
 include README.md
-include galaxy.yml
-recursive-include plugins *
-recursive-include roles *
-recursive-include playbooks *
+include mycowsay.yml
 ----
 
-=== Task 2: Sign the Project with ansible-sign
+NOTE: Internally, ansible-sign makes use of the distlib.manifest module of Python’s distlib library, and thus MANIFEST.in must follow the syntax that this library specifies. Check the Python Packaging User Guide for an explanation of the MANIFEST.in file directives.
 
-. *Switch to `ade` to standard mode:* Before we can sign our packages, we need to disable editable mode to remove the recursive symlinks. 
-+
-[source,bash,role=execute]
-----
-ade install .
-----
+=== Task 3: Sign the Project with ansible-sign
 
-. *Now we can sign the files listed in the `MANIFEST.in`:*
+. *Now we can sign the files listed in the `MANIFEST.in`:* The way that ansible-sign protects content from tampering is by taking checksums (sha256) of all of the secured files in the project, compiling those into a checksum manifest file, and then finally signing that manifest file.
 +
 [source,bash,role=execute]
 ----
@@ -136,16 +141,40 @@ The output of the command above should look like this:
 [NOTE ] GPG summary: signature created
 ----
 
-. *Verify the files in MANIFEST.in got checksums:*
+=== Task 4: Verifying the content with ansible-sign
+
+
+. *Confirm the files in MANIFEST.in got checksums:*
 +
 [source,bash,role=execute]
 ----
 cat .ansible-sign/sha256sum.txt
 ----
 
+. *Verify your signed files have the correct checksum:*
++
+[source,bash,role=execute]
+----
+ansible-sign project gpg-verify .
+----
+
 . *Switch `ade` back to editable mode:*
 +
 [source,bash,role=execute]
 ----
-ade install --editable .
+ade install --editable /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
 ----
+
+=== Task 4: Enabling verification in our AAP executions
+
+. *We won't cover this here, but the next steps would be:*
+.. Create a credential with our GPG Public Key
+.. Push our project to a git repository
+.. Create a project in AAP to pull from that repository and assign our GPG credential
+.. AAP will verify the content of the project at every sync
+
+
+---
+== Next Steps
+
+You have successfully signed and verified your playbook, this ensured that it can't be tampered with and continue to run unnoticed. Please click the **Next** button below to proceed to the next module.
