@@ -38,6 +38,19 @@ Before we begin, here are some basic tips to improve your lab experience:
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
+.   Due to workshop limitations we are going to upgrade `ansible-dev-tools` manually and pin the `ansible-core` version. In the the *VS Code top menu*, click *Terminal* and *New terminal*.
++
+image::vscode-devtools-terminal.png[Reload extensions in VS Code, opts="border"]
+
+
+.   In the *VS Code Terminal* run the following commands:
++
+[source,sh,role=execute]
+----
+pip3 install --upgrade ansible-dev-tools 
+pip3 install ansible-core==2.18.5
+----
+
 .   The lab consists of several **Modules** (also known as Chapters or Sections). Each **Module** contains one or more **Tasks**.
 
 .   When you finish a **Module**, you must click the **Next** button at the bottom of the instructions sidebar to proceed. 
