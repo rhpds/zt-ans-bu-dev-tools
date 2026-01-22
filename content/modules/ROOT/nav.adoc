@@ -6,6 +6,6 @@
 * xref:module-06-pytest.adoc[Functional testing with pytest-ansible]
 * xref:module-07-builder.adoc[Creating an Execution Environment with ansible-builder]
 * xref:module-08-sign.adoc[Introducing supply chain security with ansible-sign]
-* xref:module-10.adoc[What's next?]
+* xref:module-10.adoc[What's next ?]
 
 

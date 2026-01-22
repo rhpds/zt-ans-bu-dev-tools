@@ -296,7 +296,7 @@ Run a quick test inside the container to verify the custom collection and module
 podman run mynamespace/mycollection-ee:latest ansible-doc -t module mynamespace.mycollection.cowsay
 ----
 +
-IMPORTANT: This command should display the documentation for your custom module, but we didn't add the corresponding metadata blocks! We will leave it to you as an optional task to research and fix this issue!
+IMPORTANT: This command should display the documentation for your custom module, but we didn't add the corresponding metadata blocks! We will leave it to you as an optional task to research and fix this issue if you have time after finishing the lab!
 
 ---
 == Next Steps
