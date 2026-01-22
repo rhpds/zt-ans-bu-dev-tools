@@ -38,12 +38,12 @@ Before we begin, here are some basic tips to improve your lab experience:
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 
-.   Due to workshop limitations we are going to upgrade `ansible-dev-tools` manually and pin the `ansible-core` version. In the the *VS Code top menu*, click *Terminal* and *New terminal*.
+.   Due to workshop limitations we are going to upgrade `ansible-dev-tools` manually and pin the `ansible-core` version. In the *VS Code top menu*, click *Terminal* and *New terminal*.
 +
 image::vscode-devtools-terminal.png[Reload extensions in VS Code, opts="border"]
 
 
-.   In the *VS Code Terminal* run the following commands:
+.   Now in the *VS Code Terminal* run the following commands:
 +
 [source,sh,role=execute]
 ----
