@@ -40,7 +40,7 @@ chmod 440 /etc/sudoers.d/rhel_sudoers
 
 ## Set up error handling and DNS resolution
 set -euxo pipefail
-sudo dnf -y install jq
+sudo dnf -y install jq pinentry-curses
 sudo dnf -y update crun
 
 
@@ -85,10 +85,13 @@ chown $USER:$USER /home/$USER/.profile
 ## Enable linger for the rhel user
 loginctl enable-linger $USER
 
-##
+## fix paths
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/$USER/.profile
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /etc/profile
 
-pip3  install --upgrade --force-reinstall ansible-dev-tools
+## install the latest ansible-dev-tools package
+pip install --upgrade ansible-dev-tools ansible-core==2.18.12
+
+## start the vscode server and sleep to give it time
 systemctl start code-server
 sleep 15
