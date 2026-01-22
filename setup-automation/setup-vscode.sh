@@ -31,7 +31,7 @@ cert: false
 EOF
 
 systemctl start code-server
-dnf install unzip nano git podman -y 
+dnf -y install unzip nano git podman pinentry-curses tree
 
 ## Configure sudoers for rhel user
 echo "%rhel ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/rhel_sudoers
@@ -89,6 +89,8 @@ loginctl enable-linger $USER
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/$USER/.profile
 echo 'export PATH=$HOME/.local/bin:$PATH' >> /etc/profile
 
-pip3  install --upgrade --force-reinstall ansible-dev-tools
+pip3 install --upgrade ansible-dev-tools
+pip3 install ansible-core==2.18.5
+
 systemctl start code-server
 sleep 15
