@@ -140,7 +140,7 @@ NOTE: Versions might differ, don't worry. The list above is an example.
 [source,sh,role=execute]
 ----
 pip3 install --upgrade ansible-dev-tools 
-pip3 install ansible-core==2.18.5
+pip3 install ansible-core==2.16.15
 ----
 
 === Task 4: Manage Dependencies with `ade`

@@ -32,8 +32,6 @@ Before we begin, here are some basic tips to improve your lab experience:
 
 .   The **instructions sidebar** (where you are reading this) can be resized by dragging its border. This is useful if you need extra space for the main panel.
 
-.   If you receive any VS Code notification pop-ups, you can safely ignore and dismiss them by clicking `x`, `Dismiss`, or `Ignore`, unless otherwise noted.
-
 .   Now let's reload the **VS Code extensions** view to make sure we have the latest versions running. Inside the VS Code view, on the left icon sidebar, click the **Extensions** then click the **Reload Window** button in the **Ansible extension**
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
@@ -47,9 +45,19 @@ image::vscode-devtools-terminal.png[Reload extensions in VS Code, opts="border"]
 [source,sh,role=execute]
 ----
 pip3 install --upgrade ansible-dev-tools 
-pip3 install ansible-core==2.18.5
+pip3 install ansible-core==2.16.15
 ----
 ..   You can close the Terminal in VS Code now
+
+.   If you receive any *VS Code notification pop-ups*, you can safely ignore and dismiss them by clicking `x`, `Dismiss`, or `Ignore`, unless otherwise noted.
+
+.   *Copy & Pasting into the VS Code Terminal*: There is a known issue with the workshop setup while trying to paste into the VS Code Terminal:
++
+image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
++
+..  **Chrome** you might need to type the CLI commands into the VS Code Terminal. The workaround is to use Firefox :) 
+..  **Firefox** has a workaround by using the right-click menu for *Paste* into the Terminal (and if using Linux, you might use the selection-buffer and middle-click).
+
 
 .   The lab consists of several **Modules** (also known as Chapters or Sections). Each **Module** contains one or more **Tasks**.
 
@@ -123,7 +131,7 @@ Each tool will be introduced when it becomes relevant in the workflow.
 
 Ansible Development Tools can be consumed in multiple ways depending on workflow and system requirements.
 
-This workshop uses one of this approaches, but you will be able to install `ansible-dev-tools` with the option that adapts best to your situation.
+This workshop uses one of these approaches, but you will be able to install `ansible-dev-tools` with the option that adapts best to your situation.
 
 === Dev Containers
 
