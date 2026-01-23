@@ -83,7 +83,7 @@ This task demonstrates how to cryptographically sign an Ansible Project using `a
 
 ---
 
-=== Task 1: Set the environment
+=== Task 3: Set the environment
 
 . *Make sure you are in the `myansibleproject` directory:*
 +
@@ -165,7 +165,7 @@ ansible-sign project gpg-verify .
 ade install --editable /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
 ----
 
-=== Task 4: Enabling verification in our AAP executions
+=== Task 5: Enabling verification in our AAP executions
 
 . *We won't cover this here, but the next steps would be:*
 .. Create a credential with our GPG Public Key
