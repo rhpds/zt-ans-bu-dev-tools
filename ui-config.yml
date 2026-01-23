@@ -1,29 +1,5 @@
 ---
 type: showroom
-antora:
-  name: modules
-  dir: www
-  modules:
-    - name: module-01
-      label: "Workshop tips"
-      solveButton: false
-    - name: module-02
-      label: "Creating a collection with the Ansible extension for VS Code"
-      solveButton: false
-    - name: module-03
-      label: "Using Ansible developement environment"
-      solveButton: false
-    - name: module-04
-      label: "Adding a module to our collection"
-      solveButton: false
-    - name: module-05
-      label: "Testing our collection with Molecule"
-      solveButton: false
-    - name: module-06
-      label: "What's next ?"
-      solveButton: false
-
-
 tabs:
   - name: VS Ccode
     url: https://vscode-${guid}.${domain}
