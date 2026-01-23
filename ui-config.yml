@@ -21,11 +21,13 @@ antora:
       solveButton: false
     - name: module-06-pytest
       label: "Functional testing with pytest-ansible"
+    - name: module-07-tox
+      label: "Orchestrating Tests with tox-ansible"
       solveButton: false
-    - name: module-07-builder
+    - name: module-08-builder
       label: "Creating an Execution Environment with ansible-builder"
       solveButton: false
-    - name: module-08-sign
+    - name: module-09-sign
       label: "Introducing supply chain security with ansible-sign"
       solveButton: false
     - name: module-10

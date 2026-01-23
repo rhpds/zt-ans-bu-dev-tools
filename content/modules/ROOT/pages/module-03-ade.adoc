@@ -101,7 +101,7 @@ dependencies:
 
 Let's check the versions of the Ansible development tools installed in your environment.
 
-.   **Open the Terminal in VS Code** from the top menu by clicking **View** → **Terminal**.
+.   **Open the Terminal in VS Code** from the top menu by clicking  **Terminal** → **New Terminal**
 
 .   **Check the tool versions** by running the following command to see the versions of all installed tools:
 +
@@ -134,6 +134,14 @@ tox-ansible                              26.1.0
 ----
 +
 NOTE: Versions might differ, don't worry. The list above is an example.
+
+. *Again, due to workshop limitations we need to change the ansible-core version inside the `venv`:** Run the following command in the Terminal
++
+[source,sh,role=execute]
+----
+pip3 install --upgrade ansible-dev-tools 
+pip3 install ansible-core==2.18.5
+----
 
 === Task 4: Manage Dependencies with `ade`
 

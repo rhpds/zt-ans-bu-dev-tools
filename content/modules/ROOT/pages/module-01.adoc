@@ -42,14 +42,14 @@ image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="
 +
 image::vscode-devtools-terminal.png[Reload extensions in VS Code, opts="border"]
 
-
-.   Now in the *VS Code Terminal* run the following commands:
+..   Now in the *VS Code Terminal* run the following commands:
 +
 [source,sh,role=execute]
 ----
 pip3 install --upgrade ansible-dev-tools 
 pip3 install ansible-core==2.18.5
 ----
+..   You can close the Terminal in VS Code now
 
 .   The lab consists of several **Modules** (also known as Chapters or Sections). Each **Module** contains one or more **Tasks**.
 

@@ -1,0 +1,202 @@
+= Lab Guide: Orchestrating Tests with tox-ansible
+:doctype: book
+:experimental:
+:notoc:
+:toc-title: Table of Contents
+:nosectnums:
+:icons: font
+
+_A guide to automating your testing workflow using the tox-ansible plugin._
+
+---
+
+== Learning Objectives
+
+By the end of this lab, you will be able to:
+
+* Understand the role of `tox` and the `tox-ansible` plugin
+* Configure a minimal `tox.ini` that relies on auto-discovery
+* Use `tox` to list and execute automatically generated test environments
+* Run linting, unit tests, and integration tests with a single tool
+* Test against multiple Ansible Core versions without manual configuration
+
+---
+
+== Lab Briefing
+
+**What is tox?**
+`tox` is a generic virtual environment management and test command line tool. It is the standard for testing Python-based projects.
+
+**What is tox-ansible?**
+`tox-ansible` is a plugin (installed by default in `ansible-dev-tools`) that makes `tox` "Ansible-aware." Instead of writing dozens of lines of configuration to tell `tox` how to run `ansible-lint` or `molecule`, the plugin **scans your collection** and automatically creates test environments for:
+
+* **Linting:** (ansible-lint)
+* **Unit Tests:** (pytest)
+* **Sanity Tests:** (ansible-test sanity)
+* **Integration Tests:** (molecule)
+
+This "Convention over Configuration" approach allows you to run complex test matrices with a 5-line configuration file.
+
+---
+
+== Lab Guide: Hands-On Tasks
+
+=== Task 1: Verify the Installation
+
+Before we configure anything, let's verify that `tox` and the plugin are installed and ready.
+
+.   **Open the VS Code Terminal.**
+
+.   **Check the tox version and plugins:**
++
+[source,bash,role=execute]
+----
+tox --version
+----
++
+**Output analysis:**
+You should see output similar to:
+`tox 4.x.x from ... with tox-ansible-2.x.x`
++
+Crucially, look for **`with tox-ansible`**. This confirms the plugin is active.
+
+.   **Navigate to your collection root:**
++
+[source,bash,role=execute]
+----
+cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
+----
+
+=== Task 2: Create a Minimal tox Configuration
+
+Because we are using the plugin, we don't need to manually define every single test environment. We just need to tell tox global settings.
+
+.   **Create the `tox.ini` file.**
+    Right-click the collection root folder, select **New File**, name it `tox.ini`, and paste the following:
+
++
+[source,ini]
+----
+[tox]
+# Global tox settings
+envlist = lint, unit
+skip_missing_interpreters = True
+requires =
+    tox-ansible
+
+[testenv]
+# This section configures the default behavior for all environments
+usedevelop = true
+deps =
+    pytest
+    pytest-ansible
+    ansible-lint
+    molecule-plugins[podman]
+
+[ansible]
+# Configuration specific to the tox-ansible plugin
+# This limits the matrix to Ansible 2.15 and 2.16 to save time/resources
+ansible_core_versions =
+    2.15
+    2.16
+----
+
+.   **Understanding the config:**
+    * `requires = tox-ansible`: Ensures the plugin is present before running.
+    * `ansible_core_versions`: The plugin normally attempts to test against *every* supported Ansible version. We limit this to 2.15 and 2.16 to keep the lab fast.
+    * We do *not* have a `[testenv:lint]` or `[testenv:molecule]` section. The plugin creates these for us!
+
+=== Task 3: Explore the Auto-Generated Environments
+
+Now that the config exists, let's see what the plugin found in your project.
+
+.   **List all available environments:**
++
+[source,bash,role=execute]
+----
+tox -l
+----
++
+**Observe the magic:**
+Even though your `tox.ini` is tiny, you will see a massive list of environments. The plugin found your `tests/unit` folder, your `molecule` scenarios, and your linting needs. You should see entries like:
++
+* `lint` (Auto-discovered ansible-lint)
+* `py311-ansible2.16-unit` (Auto-discovered pytest)
+* `py311-ansible2.16-molecule-integration_hello_world` (Auto-discovered molecule)
+
+=== Task 4: Run the Tests
+
+Now we let tox orchestrate the execution.
+
+.   **Run the Linting environment:**
++
+[source,bash,role=execute]
+----
+tox -e lint
+----
++
+Tox creates a virtual environment, installs `ansible-lint`, and runs it against your collection.
+
+.   **Run Unit Tests:**
+    The plugin allows you to target specific parts of the matrix. Let's run unit tests against Ansible 2.16.
++
+[source,bash,role=execute]
+----
+tox -e py311-ansible2.16-unit
+----
+
+.   **Run Integration Tests (Molecule):**
+    Instead of typing the long `molecule test -s ...` command, we use the tox alias.
+    *Note: The environment name depends on the scenario you created in Module 05.*
++
+[source,bash,role=execute]
+----
+tox -e py311-ansible2.16-molecule-integration_hello_world
+----
++
+This automatically:
+    1.  Creates a fresh environment.
+    2.  Installs Ansible Core 2.16.
+    3.  Installs Molecule and Podman plugins.
+    4.  Executes the test scenario.
+
+=== Task 5: Running a Group of Tests
+
+One of the most powerful features of tox is running multiple tests with one command.
+
+.   **Run all tests for a specific Ansible version:**
+    You can use "factors" to match multiple environments.
++
+[source,bash,role=execute]
+----
+tox -f ansible2.16
+----
++
+This command tells tox: "Run every test environment that includes 'ansible2.16' in its name." This effectively runs your Unit tests AND Molecule tests for that version in one go.
+
+---
+
+== Troubleshooting
+
+**"InterpreterNotFound"**
+If you see `SKIPPED: InterpreterNotFound: python3.9`, this is normal. We added `skip_missing_interpreters = True` to your config. It simply means the lab environment doesn't have that specific Python version installed.
+
+**"No environments matched"**
+If `tox -l` returns nothing or very few items:
+1. Ensure you are in the directory containing `galaxy.yml`.
+2. Ensure you actually created the `tests/unit` folder or `molecule` scenarios in previous modules. The plugin only generates environments for tests that actually exist.
+
+---
+
+== Summary
+
+In this lab, you utilized the **tox-ansible** plugin to dramatically simplify test automation.
+
+* **Orchestration:** You replaced manual `ansible-lint`, `pytest`, and `molecule` commands with a unified `tox` interface.
+* **Auto-discovery:** You learned how the plugin scans your project to generate the test matrix automatically.
+* **Matrix Testing:** You validated your code against specific Ansible Core versions (2.15, 2.16) without managing the dependencies manually.
+
+== Next Steps
+
+With your testing pipeline automated, you are ready to package your work.
+Click the **Next** button below to proceed to **Module 08: Execution Environments**.
