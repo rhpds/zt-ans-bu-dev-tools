@@ -1,5 +1,5 @@
 ---
-
+type: showroom
 antora:
   name: modules
   dir: www
