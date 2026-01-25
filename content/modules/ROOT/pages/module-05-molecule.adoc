@@ -236,38 +236,6 @@ A passing Molecule test means your collection has been validated in an automated
 
 ---
 
-=== Optional Challenges (Time Permitting)
-
-If you've completed the core tasks and have additional time, try these challenges to deepen your understanding of Molecule:
-
-**Challenge 1: Intentionally Break a Test**
-
-Modify one of the assertions in `tests/integration/targets/hello_world/tasks/main.yml` to make it fail intentionally. For example, change an expected value in an `assert` task. Then run `molecule test -s integration_hello_world` again and observe how Molecule reports test failures. This helps you understand what test failures look like so you can diagnose them in the future.
-
-**Challenge 2: Run Individual Molecule Stages**
-
-Instead of running the full test lifecycle with `molecule test`, try running individual stages separately:
-
-[source,bash]
-----
-molecule create -s integration_hello_world
-molecule converge -s integration_hello_world
-molecule verify -s integration_hello_world
-molecule destroy -s integration_hello_world
-----
-
-This workflow is useful during development when you want to iterate quickly without recreating the test environment each time.
-
-**Challenge 3: Inspect Molecule Logs**
-
-Examine the detailed Molecule logs stored in `extensions/molecule/integration_hello_world/.molecule/` directory. Look for the log files that show exactly what commands Molecule executed and what output they produced. This is invaluable for debugging complex test failures.
-
-**Challenge 4: Login to the Test Container**
-
-Run `molecule create -s integration_hello_world` followed by `molecule login -s integration_hello_world`. This puts you inside the test container where you can manually inspect the environment, run commands, and understand exactly what state your tests are running against. Type `exit` to leave the container when finished.
-
----
-
 === Troubleshooting Common Issues
 
 . **If you see "No such file or directory" errors:**

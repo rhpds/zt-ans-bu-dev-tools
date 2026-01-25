@@ -42,7 +42,7 @@ First, you will activate the Python virtual environment (`.venv`) that `ansible-
 
 .   **Open the `galaxy.yml` file** by clicking on it in the left sidebar.
 
-.   **Activate the Python virtual environment** by clicking the banner that reads **Select Python Interpreter** in the bottom status bar of VS Code. From the dropdown menu that appears at the top, select the recommended option: **Python 3.11.11 ('.venv': venv)**.
+.   **Activate the Python virtual environment** by clicking the banner that reads `Python: Select Interpreter` in the bottom status bar of VS Code. From the dropdown menu that appears at the top, select the recommended option: **Python 3.11.11 ('.venv': venv)**.
 +
 image::vscode-devtools-python-env.png[Selecting the Python virtual environment in VS Code, opts="border"]
 
@@ -83,7 +83,7 @@ We will replace the following fileds:
 +
 - `your name <example@domain.com>` in the `authors:` section with your own name and email.  This is used for ownership attribution, support and maintenance.
 - `your collection description` in the `description:` section with `mycowsay collection` This is used for the search results summaries in Galaxy and Automation Hub, as well as the collection landing page.
-- the `tags:` section should look like this: `["easter-egg", "cow"]`. These tags are used in Galaxy and Automation Hub for discoverability and they are specially important in large catalogs. Consider the purpose of your collection for them.
+- the `tags:` These tags are used in Galaxy and Automation Hub for discoverability and they are specially important in large catalogs. Consider the purpose of your collection for them. The available categories are `application`, `cloud`, `database`, `eda`, `infrastructure`, `linux`, `monitoring`, `networking`, `security`, `storage`, `tools`, `windows`.
 
 .  .   **Let's add a requirement to see `ade` in action:** Modify the `dependencies:` block to add `ansible.posix`. This is used for automatic dependency installation and compatibility validation. The result should look like this:
 +
@@ -101,7 +101,7 @@ dependencies:
 
 Let's check the versions of the Ansible development tools installed in your environment.
 
-.   **Open the Terminal in VS Code** from the top menu by clicking **View** → **Terminal**.
+.   **Open the Terminal in VS Code** from the top menu by clicking  **Terminal** → **New Terminal**
 
 .   **Check the tool versions** by running the following command to see the versions of all installed tools:
 +
@@ -135,6 +135,14 @@ tox-ansible                              26.1.0
 +
 NOTE: Versions might differ, don't worry. The list above is an example.
 
+. *Again, due to workshop limitations we need to change the ansible-core version inside the `venv`:** Run the following command in the Terminal
++
+[source,sh,role=execute]
+----
+pip3 install --upgrade ansible-dev-tools 
+pip3 install ansible-core==2.16.15
+----
+
 === Task 4: Manage Dependencies with `ade`
 
 Now you will use `ade` to install the dependencies you declared in `galaxy.yml`.
@@ -155,11 +163,14 @@ The output should look like this:
 +
 [source,text]
 ----
- (.venv) [rhel@ansible myansible]$ ade install -e .
- Running ansible-galaxy to install a local collection and it's dependencies
- Note: Installed collections include: ansible.utils and mynamespace.mycollection
- Note: All python requirements are installed.
- Note: All required system packages are installed.
+(.venv) [rhel@vscode mycollection]$ ade install -e .
+    Note: Installed collections include: ansible.posix, ansible.utils, and
+          mynamespace.mycollection
+ Warning: No git repository found, using heuristic filtering
+    Note: Note: If you add new root-level directories or files to your
+          collection, you will need to re-run 'ade install -e .' to include them in the editable install.
+    Note: All python requirements are installed.
+    Note: All required system packages are installed.
 ----
 
 .   **Check the dependency tree** by running `ade tree -v` to see the installed dependencies.
