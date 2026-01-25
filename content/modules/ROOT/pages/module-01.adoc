@@ -55,8 +55,8 @@ pip3 install ansible-core==2.16.15
 +
 image::vscode-devtools-extension-reload.png[Reload extensions in VS Code, opts="border"]
 +
-..  **Chrome** you might need to type the CLI commands into the VS Code Terminal. The workaround is to use Firefox :) 
-..  **Firefox** has a workaround by using the right-click menu for *Paste* into the Terminal (and if using Linux, you might use the selection-buffer and middle-click).
+..  **Chrome:** The key combo of **Control + Shift + V** (Mac: **Command + Shift + V**) should work for pasting. Another workaround requires using Firefox.
+..  **Firefox:** The key combo of **Control + Shift + V** (Mac: **Command + Shift + V**). There is another workaround by using the right-click menu for *Paste* into the Terminal (and if using Linux, you might use the selection-buffer and middle-click).
 
 
 .   The lab consists of several **Modules** (also known as Chapters or Sections). Each **Module** contains one or more **Tasks**.
