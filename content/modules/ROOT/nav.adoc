@@ -4,7 +4,6 @@
 * xref:module-04-module.adoc[Adding a module to our collection]
 * xref:module-05-molecule.adoc[Testing our collection with Molecule]
 * xref:module-06-pytest.adoc[Functional testing with pytest-ansible]
-* xref:module-07-tox.adoc[Orchestrating Tests with tox-ansible]
 * xref:module-08-builder.adoc[Creating an Execution Environment with ansible-builder]
 * xref:module-09-sign.adoc[Introducing supply chain security with ansible-sign]
 * xref:module-10.adoc[What's next ?]
