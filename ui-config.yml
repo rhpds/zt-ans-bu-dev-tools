@@ -11,7 +11,7 @@ antora:
       label: "Creating a collection with the Ansible extension for VS Code"
       solveButton: false
     - name: module-03-ade
-      label: "Using Ansible developement environment"
+      label: "Using Ansible development environment"
       solveButton: false
     - name: module-04-module
       label: "Adding a module to our collection"
@@ -21,6 +21,7 @@ antora:
       solveButton: false
     - name: module-06-pytest
       label: "Functional testing with pytest-ansible"
+      solveButton: false
     - name: module-08-builder
       label: "Creating an Execution Environment with ansible-builder"
       solveButton: false
@@ -32,6 +33,6 @@ antora:
       solveButton: false
 
 tabs:
-  - name: VS Ccode
+  - name: VS Code
     url: https://vscode-${guid}.${domain}
     external: false
