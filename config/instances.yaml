@@ -66,7 +66,7 @@ containers:
 
 virtualmachines:
   - name: "vscode"
-    image: "devtools-ansible"
+    image: "devtools-ansible-20260530"
     memory: "8G"
     cores: 2
     image_size: "20Gi"
