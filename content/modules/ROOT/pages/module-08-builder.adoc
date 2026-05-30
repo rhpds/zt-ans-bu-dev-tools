@@ -34,6 +34,13 @@ We will define an Execution Environment configuration file by using the Ansible 
 
 The EE configuration is defined in `execution-environment.yml`. To access the features of modern Ansible tooling, we must explicitly declare `version: 3` in the definition file.
 
+. *Open the project folder in VS Code.* In the top menu, select **File** → **Open Folder...**, enter the following path and click **OK**:
++
+[source,sh,role=execute]
+----
+/home/rhel/myansibleproject/
+----
+
 . *Create the Execution environment project in VS Code:*
 +
 Open the **Ansible extension** in the VS Code sidebar and click the **Execution environment project** option under the "INITIALIZE" menu.
@@ -48,9 +55,7 @@ image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border
 /home/rhel/myansibleproject
 ----
 +
-* **Base image:** Select the `registry.redhat.io` option from the dropdown to use the Red Hat supported image. 
-+
-NOTE: This will require to be logged in to the registry before building the image. For the lab this is not required.
+* **Base image:** In the base image field, enter `quay.io/fedora/fedora:43` to use a public Fedora image that does not require registry authentication.
 * **Additional collections:**
 +
 [source,bash,role=execute]
@@ -92,7 +97,7 @@ This configuration defines the base image, includes the collection dependencies 
 version: 3
 images:
   base_image:
-    name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel8:latest
+    name: quay.io/centos/centos:stream10
 dependencies:
   ansible_core:
     package_pip: ansible-core
@@ -106,13 +111,11 @@ dependencies:
 options:
   tags:
     - mycollection-ee
-  package_manager_path: /usr/bin/microdnf
 ----
 +
-[IMPORTANT]
-.microdnf requirement
+[NOTE]
 ====
-Because the base image (`ee-minimal-rhel8:latest`) is built on UBI-minimal, which uses `microdnf`, you must specify `package_manager_path: /usr/bin/microdnf` in the options section for the build to succeed.
+When using Red Hat supported EE base images from `registry.redhat.io` (e.g. `ee-minimal-rhel8`), you must add `package_manager_path: /usr/bin/microdnf` to the `options:` section, as those images are built on UBI-minimal which uses `microdnf` instead of `dnf`.
 ====
 
 . *Let's customize the EE blueprint content:*
@@ -129,7 +132,7 @@ Second we will modify the `collection:` section to point to the tarball path, in
 version: 3
 images:
   base_image:
-    name: registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel8:latest
+    name: quay.io/centos/centos:stream10
 
 dependencies:
   ansible_core:
@@ -152,7 +155,6 @@ additional_build_files:
 options:
   tags:
     - mycollection-ee
-  package_manager_path: /usr/bin/microdnf
 
 ----
 +

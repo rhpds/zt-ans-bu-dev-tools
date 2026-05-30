@@ -42,7 +42,7 @@ First, you will activate the Python virtual environment (`.venv`) that `ansible-
 
 .   **Open the `galaxy.yml` file** by clicking on it in the left sidebar.
 
-.   **Activate the Python virtual environment** by clicking the banner that reads `Python: Select Interpreter` in the bottom status bar of VS Code. From the dropdown menu that appears at the top, select the recommended option: **Python 3.11.11 ('.venv': venv)**.
+.   **Activate the Python virtual environment** by clicking the banner that reads `Python: Select Interpreter` in the bottom status bar of VS Code. From the dropdown menu that appears at the top, select the recommended option: **Python 3.11.xy ('.venv': venv)**.
 +
 image::vscode-devtools-python-env.png[Selecting the Python virtual environment in VS Code, opts="border"]
 
@@ -102,6 +102,16 @@ dependencies:
 Let's check the versions of the Ansible development tools installed in your environment.
 
 .   **Open the Terminal in VS Code** from the top menu by clicking  **Terminal** → **New Terminal**
++
+[NOTE]
+====
+Once the terminal opens, you should see the virtual environment indicator in the prompt: `(.venv) [rhel@vscode mycollection]$`. If you do not see `(.venv)`, activate the virtual environment manually:
+
+[source,bash]
+----
+source .venv/bin/activate
+----
+====
 
 .   **Check the tool versions** by running the following command to see the versions of all installed tools:
 +
@@ -135,14 +145,6 @@ tox-ansible                              26.1.0
 +
 NOTE: Versions might differ, don't worry. The list above is an example.
 
-. *Again, due to workshop limitations we need to change the ansible-core version inside the `venv`:** Run the following command in the Terminal
-+
-[source,sh,role=execute]
-----
-pip3 install --upgrade ansible-dev-tools 
-pip3 install ansible-core==2.16.15
-----
-
 === Task 4: Manage Dependencies with `ade`
 
 Now you will use `ade` to install the dependencies you declared in `galaxy.yml`.
@@ -172,6 +174,20 @@ The output should look like this:
     Note: All python requirements are installed.
     Note: All required system packages are installed.
 ----
+
+.   **Update `build_ignore` in `galaxy.yml`.** When `ade` manages your collection, it creates directories like `.venv` and `collections` inside the collection root. These are development artifacts that should not be included when building the collection tarball. The `build_ignore` field in `galaxy.yml` tells `ansible-galaxy collection build` to exclude them. Open `galaxy.yml` and update the `build_ignore` section to:
++
+[source,yaml]
+----
+build_ignore:
+  - .gitignore
+  - changelogs/.plugin-cache.yaml
+  - .venv
+  - collections
+  - .tox
+----
++
+This ensures that development tooling directories are excluded from the packaged collection artifact. The `.venv` and `collections` entries prevent `ade`-managed content from bloating the tarball, and `.tox` excludes test runner artifacts from `tox-ansible`.
 
 .   **Check the dependency tree** by running `ade tree -v` to see the installed dependencies.
 

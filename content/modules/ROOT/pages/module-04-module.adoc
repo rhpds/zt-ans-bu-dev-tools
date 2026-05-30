@@ -123,9 +123,29 @@ image::vscode-devtools-lint-fix.png[Ansible Lint settings, opts="border"]
 
 ----
 
-=== Task 4: Run the Playbook
+=== Task 4: Install the `cowsay` Dependency
 
-Now that your playbook is lint-free, let's run it using both `ansible-playbook` and `ansible-navigator`. Go back to the **VS Code file Explorer** view.
+Your custom module calls the `cowsay` binary. Before running the playbook, you need to declare this dependency in the collection's `requirements.txt` so that `ade` installs it automatically.
+
+.   **Open the `requirements.txt` file** from the file explorer on the left, inside the `collections/ansible_collections/mynamespace/mycollection/` directory. **Add** `cowsay` on a new line and **save** the file.
+
+.   **Install the dependency with `ade`.** Open the Terminal (**Terminal** → **New Terminal**) and run:
++
+[source,bash,role=execute]
+----
+ade install -e .
+----
+
+=== Task 5: Run the Playbook
+
+Now that your playbook is lint-free and the `cowsay` dependency is installed, let's run it using both `ansible-playbook` and `ansible-navigator`.
+
+.   **Open the `mycowsay.yml` playbook.** In the VS Code file explorer on the left, navigate to the `mycowsay.yml` file and **click** on it to open it.
++
+[NOTE]
+====
+Make sure the `mycowsay.yml` file is the active tab before running the playbook. Running the playbook while another file is open will result in an error.
+====
 
 .   **Run with `ansible-playbook`.** In the VS Code file explorer, **right-click** your `mycowsay.yml` playbook. From the context menu, select **Run Ansible Playbook**. The output in the terminal should display a friendly cow saying "Hello, Ansible!".
 +

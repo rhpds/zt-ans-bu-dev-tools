@@ -167,14 +167,26 @@ This test validates both the module's execution (no failures, correct change sta
 
 === Task 4: Run the Test
 
-. *Open the VS Code Terminal if you don't have one*
-
-
-. *Verify the VS Code Terminal is in the venv:*
+. *Open the collection folder in VS Code.* In the top menu, select **File** → **Open Folder...**, enter the following path and click **OK**:
 +
-[source,ini,role=execute]
+[source,sh,role=execute]
+----
+/home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection/
+----
+
+. *Open the VS Code Terminal* from the top menu: **Terminal** → **New Terminal**
+
+. *Navigate to the collection directory:*
++
+[source,bash,role=execute]
 ----
 cd /home/rhel/myansibleproject/collections/ansible_collections/mynamespace/mycollection
+----
+
+. *Activate the virtual environment:*
++
+[source,bash,role=execute]
+----
 source .venv/bin/activate
 ----
 
