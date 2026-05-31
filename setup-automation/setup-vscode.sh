@@ -15,15 +15,15 @@ retry() {
     exit 1
 }
 
+## Disruptive operations first — before code-server has active connections
+setenforce 0 || true
+systemctl stop firewalld || true
+
 ## Register with Satellite for lab-specific repos
 retry "curl -k -L https://${SATELLITE_URL}/pub/katello-server-ca.crt -o /etc/pki/ca-trust/source/anchors/${SATELLITE_URL}.ca.crt" "Download Satellite CA cert"
 retry "update-ca-trust" "Update CA trust"
 retry "rpm -Uhv https://${SATELLITE_URL}/pub/katello-ca-consumer-latest.noarch.rpm || true" "Install katello consumer RPM"
 retry "subscription-manager register --org=${SATELLITE_ORG} --activationkey=${SATELLITE_ACTIVATIONKEY} || true" "Register with Satellite"
-
-## Runtime security settings
-setenforce 0 || true
-systemctl stop firewalld || true
 
 ## Generate SSH key for rhel user
 USER="rhel"
@@ -38,10 +38,18 @@ if [ ! -f "$RHEL_PRIVATE_KEY" ]; then
     sudo -u "${USER}" chmod 600 "${RHEL_SSH_DIR}"/id_rsa*
 fi
 
-## Ensure code-server is running
+## Ensure code-server is running (don't restart if already active)
 if systemctl is-active --quiet code-server; then
     echo "code-server is already running"
 else
     systemctl start code-server
-    sleep 15
 fi
+
+## Wait for code-server to be fully ready before exiting
+for i in $(seq 1 30); do
+    if curl -sf http://localhost:8080/healthz > /dev/null 2>&1; then
+        echo "code-server is ready"
+        break
+    fi
+    sleep 2
+done
