@@ -55,7 +55,7 @@ image::vscode-devtools-ee-sidebar.png[EE wizard creator in VS Code, opts="border
 /home/rhel/myansibleproject
 ----
 +
-* **Base image:** In the base image field, enter `quay.io/fedora/fedora:43` to use a public Fedora image that does not require registry authentication.
+* **Base image:** In the base image field, enter `quay.io/centos/centos:stream10` to use a public CentOS Stream 10 image that does not require registry authentication.
 * **Additional collections:**
 +
 [source,bash,role=execute]
