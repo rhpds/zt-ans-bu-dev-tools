@@ -38,18 +38,17 @@ if [ ! -f "$RHEL_PRIVATE_KEY" ]; then
     sudo -u "${USER}" chmod 600 "${RHEL_SSH_DIR}"/id_rsa*
 fi
 
-## Restart code-server to ensure clean state before student connects
-systemctl restart code-server
-
-## Verify code-server started and wait for it to be fully ready
-if ! systemctl is-active --quiet code-server; then
-    echo "ERROR: code-server failed to start"
-    exit 1
+## Verify code-server is running (image starts it on boot with correct config,
+## don't restart as it would kill active browser connections)
+if systemctl is-active --quiet code-server; then
+    echo "code-server is already running"
+else
+    systemctl start code-server
+    for i in $(seq 1 30); do
+        if curl -sf http://localhost:8080/healthz > /dev/null 2>&1; then
+            echo "code-server is ready"
+            break
+        fi
+        sleep 2
+    done
 fi
-for i in $(seq 1 30); do
-    if curl -sf http://localhost:8080/healthz > /dev/null 2>&1; then
-        echo "code-server is ready"
-        break
-    fi
-    sleep 2
-done
