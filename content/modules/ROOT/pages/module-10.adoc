@@ -20,7 +20,7 @@ You have successfully completed the **"Intro to creating automation with the new
 
 image:qr-ansible-forum-workshop-completed.jpg[QR code for Ansible Forum, opts="border"]
 
-After logging in to the Ansible Forum, link:hhttps://forum.ansible.com/t/introduce-yourself-2026-edition/45062?u=leo[introduce yourself in this topic] and feel free to mention that you just completed the Ansible Developer Tools lab!
+After logging in to the Ansible Forum, link:https://forum.ansible.com/t/introduce-yourself-2026-edition/45062?u=leo[introduce yourself in this topic] and feel free to mention that you just completed the Ansible Developer Tools lab!
 
 [IMPORTANT]
 ====
