@@ -38,6 +38,10 @@ if [ ! -f "$RHEL_PRIVATE_KEY" ]; then
     sudo -u "${USER}" chmod 600 "${RHEL_SSH_DIR}"/id_rsa*
 fi
 
-## Start code-server
-systemctl start code-server
-sleep 15
+## Ensure code-server is running
+if systemctl is-active --quiet code-server; then
+    echo "code-server is already running"
+else
+    systemctl start code-server
+    sleep 15
+fi
