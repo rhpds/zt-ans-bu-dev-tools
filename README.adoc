@@ -1,1 +1,78 @@
+= Intro to Creating Automation with Ansible Development Tools
 
+A hands-on workshop for the https://www.redhat.com/en/events/red-hat-demo-platform[Red Hat Demo Platform (RHDP)] that teaches attendees how to create, develop, and test Ansible collections using VS Code and the Ansible development toolset.
+
+Branch: `event-cisco-usa-2026`
+
+== Workshop Modules
+
+[cols="1,3",options="header"]
+|===
+| Module | Description
+
+| 01 — Workshop tips
+| Overview, environment orientation, and tips for the lab
+
+| 02 — Creating a collection
+| Scaffold a new Ansible collection using the Ansible extension for VS Code
+
+| 03 — Ansible dev environment
+| Explore the Ansible development environment and its tooling
+
+| 04 — Adding a module
+| Write and add a custom module to the collection
+
+| 05 — Molecule
+| Test the collection with Molecule scenarios
+
+| 06 — pytest-ansible
+| Functional testing with pytest-ansible
+
+| 08 — ansible-builder
+| Create an Execution Environment with ansible-builder
+
+| 09 — ansible-sign
+| Introduce supply chain security with ansible-sign
+
+| 10 — What's next?
+| Resources, community links, and next steps
+|===
+
+== Building the Site Locally
+
+The site uses https://antora.org/[Antora] for documentation generation. Requires https://podman.io/[Podman].
+
+[source,bash]
+----
+utilities/lab-build    # Build the Antora site into ./www/
+utilities/lab-serve    # Serve on http://localhost:8080
+utilities/lab-stop     # Stop the serving container
+utilities/lab-clean    # Remove generated site
+----
+
+== Project Structure
+
+----
+content/
+├── antora.yml                      # Antora component descriptor
+├── modules/ROOT/
+│   ├── nav.adoc                    # Navigation tree
+│   ├── pages/module-*.adoc         # Workshop module content (AsciiDoc)
+│   └── assets/images/              # Screenshots and diagrams
+└── lib/                            # Antora extensions
+
+config/                             # RHDP infrastructure (VMs, networks, firewall, secrets)
+setup-automation/                   # Ansible playbooks run at lab provisioning
+runtime-automation/                 # Ansible playbooks run per-module during the lab
+utilities/                          # Build and serve helper scripts
+
+site.yml / default-site.yml         # Antora playbook
+ui-config.yml                       # Showroom UI configuration (module labels, tabs)
+www/                                # Generated static site output
+----
+
+== Target Platform
+
+* AAP 2.5 (Terraform & Red Hat Ansible Automation Platform)
+* Pre-built VM image: `devtools-ansible-20260530`
+* VS Code with the Ansible extension (code-server)
